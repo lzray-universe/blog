@@ -1,6 +1,6 @@
 
 :root {
-  --maxw: 980px;
+  --maxw: 1200px;
   --radius: 22px;
   --gap: 16px;
 
@@ -49,6 +49,7 @@ body {
   max-width: var(--maxw);
   padding: 0 18px;
   margin: 0 auto;
+  overflow-wrap: break-word;
 }
 
 .glass {
@@ -145,32 +146,17 @@ code {
   font-family: "JetBrains Mono", "DengXian", monospace;
 }
 pre {
+  position: relative;
   background: var(--code-bg);
   border: 1px solid var(--glass-border);
   border-radius: 12px;
   font-family: "JetBrains Mono", "DengXian", monospace;
   padding: 14px;
   overflow: auto;
+  max-width: 100%;
 }
 
-/* 多行代码块样式 */
-.highlighter-rouge,
-.highlight {
-  position: relative;
-  background: var(--code-bg);
-  border: 1px solid var(--glass-border);
-  border-radius: 12px;
-  overflow: hidden;
-}
-.highlighter-rouge pre,
-.highlight pre {
-  margin: 0;
-  background: transparent;
-  border: none;
-  padding: 14px;
-}
-.highlighter-rouge::before,
-.highlight::before {
+pre[data-lang]::before {
   content: attr(data-lang);
   position: absolute;
   top: 6px;
@@ -178,26 +164,10 @@ pre {
   font-size: 12px;
   color: var(--muted);
 }
-.highlighter-rouge .rouge-table,
-.highlight .rouge-table {
-  width: 100%;
-  border-spacing: 0;
-}
-.highlighter-rouge .rouge-table td,
-.highlight .rouge-table td {
-  padding: 0;
-}
-.highlighter-rouge .gutter,
-.highlight .gutter {
-  user-select: none;
-  text-align: right;
-  padding: 0 12px;
-  border-right: 1px solid var(--glass-border);
-  color: var(--muted);
-}
-.highlighter-rouge .code,
-.highlight .code {
-  padding-left: 12px;
+
+img {
+  max-width: 100%;
+  height: auto;
 }
 
 blockquote {

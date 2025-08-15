@@ -14,13 +14,8 @@ kramdown:
   input: GFM
   math_engine: mathjax
   hard_wrap: false
-  syntax_highlighter_opts:
-    block:
-      line_numbers: true
-  syntax_highlighter_opts:
-    block:
-      line_numbers: true
-highlighter: rouge
+  syntax_highlighter: null
+highlighter: none
 
 plugins:
   - jekyll-feed
