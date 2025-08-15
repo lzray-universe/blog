@@ -270,6 +270,10 @@ td, th {
   padding-left: 0;
 }
 
+#outline-panel ul ul {
+  padding-left: 1rem;
+}
+
 #outline-panel a {
   color: var(--text);
   text-decoration: none;
