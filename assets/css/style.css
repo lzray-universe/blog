@@ -422,3 +422,29 @@ code[data-inline-code="1"] {
 @media (max-width: 640px){
   .prism-theme-picker label { display:none; }
 }
+
+
+/* --- Code fonts and inline code rules --- */
+pre, code, kbd, samp {
+  font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+pre {
+  background: var(--code-bg);
+  border-radius: 12px;
+  padding: 14px 16px;
+  overflow: auto;
+}
+code:not(pre code) {
+  background: none !important;
+  padding: 0;
+}
+/* language badge on blocks */
+pre[data-lang]::before {
+  content: attr(data-lang);
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  font-size: 12px;
+  opacity: 0.7;
+}
+pre[data-lang] { position: relative; }
