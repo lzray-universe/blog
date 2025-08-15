@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="{{ site.lang | default: 'zh-CN' }}">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% if page.title %}{{ page.title }} · {% endif %}{{ site.title }}</title>
+    {%- seo -%}
+    <link rel="alternate" type="application/atom+xml" title="{{ site.title }} Feed" href="{{ '/feed.xml' | relative_url }}">
+    <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
+    {% include mathjax.html %}
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container">
+        <a class="site-title" href="{{ '/' | relative_url }}">{{ site.title }}</a>
+        <nav class="site-nav">
+          <a href="{{ '/' | relative_url }}">首页</a>
+          <a href="{{ '/about/' | relative_url }}">关于</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container content">
+      {{ content }}
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <p>© {{ site.time | date: "%Y" }} {{ site.title }} · 由 Jekyll & GitHub Pages 驱动</p>
+      </div>
+    </footer>
+  </body>
+</html>

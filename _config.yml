@@ -1,0 +1,26 @@
+title: 我的博客
+description: "使用 Jekyll + GitHub Actions + GitHub Pages 的个人博客"
+lang: zh-CN
+timezone: Asia/Shanghai
+
+# 如果你的站点是项目页（https://<user>.github.io/<repo>/），把 baseurl 改为 "/<repo>"
+baseurl: ""
+url: ""
+
+permalink: /:year/:month/:day/:title/
+
+markdown: kramdown
+kramdown:
+  input: GFM
+  math_engine: mathjax
+  hard_wrap: false
+
+highlighter: rouge
+
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+  - jekyll-sitemap
+
+# 导航（可按需创建 _data/nav.yml 用于更复杂导航）
+# collections, defaults 等进阶配置可后续添加
