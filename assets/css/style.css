@@ -40,13 +40,14 @@ body {
                "Microsoft YaHei", sans-serif;
   line-height: 1.75;
 
-  /* 背景图 + 渐变遮罩。将图片放到 /assets/img/bg.jpg */
+  /* 背景渐变，可在 /assets/img/bg.jpg 添加自定义背景图 */
   background:
     radial-gradient(1200px 800px at 10% 10%, rgba(255,255,255,0.25), rgba(255,255,255,0) 40%),
     radial-gradient(1000px 700px at 90% 20%, rgba(255,255,255,0.16), rgba(255,255,255,0) 45%),
-    linear-gradient(180deg, rgba(255,255,255,0.22), rgba(255,255,255,0.08)),
-    url('/assets/img/bg.jpg') center/cover fixed no-repeat;
-  background-attachment: fixed, fixed, fixed, fixed;  /* 轻微“透视”效果 */
+    linear-gradient(180deg, rgba(255,255,255,0.22), rgba(255,255,255,0.08));
+  /* 如需背景图，可在上方 background 列表末尾添加: 
+     url('/assets/img/bg.jpg') center/cover fixed no-repeat */
+  background-attachment: fixed, fixed, fixed;  /* 轻微“透视”效果 */
 }
 
 /* ---------- 通用容器 & 玻璃卡片 ---------- */
