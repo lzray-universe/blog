@@ -367,3 +367,58 @@ code[class*="language-"] {
   background: none !important;
   padding: 0; /* keep inline flow */
 }
+
+
+/* --- Inline language picker UI --- */
+.inline-lang-picker {
+  position: absolute;
+  z-index: 9999;
+  display: none;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 10px;
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(10px) saturate(160%);
+  -webkit-backdrop-filter: blur(10px) saturate(160%);
+  padding: 6px;
+}
+.inline-lang-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(100px, 1fr));
+  gap: 6px;
+}
+.inline-lang-item {
+  appearance: none;
+  border: 1px solid var(--glass-border);
+  background: transparent;
+  border-radius: 8px;
+  padding: 6px 10px;
+  cursor: pointer;
+  font-size: 12px;
+}
+.inline-lang-item:hover {
+  background: var(--glass-bg);
+}
+/* make unannotated inline code subtly hint clickable */
+code[data-inline-code="1"] {
+  border-bottom: 1px dotted rgba(127,127,127,0.4);
+}
+@media (prefers-color-scheme: dark) {
+  .inline-lang-item { color: var(--text); }
+}
+
+
+/* --- Prism theme picker styles --- */
+.prism-theme-picker select {
+  appearance: none;
+  border: 1px solid var(--glass-border);
+  background: var(--glass-bg);
+  border-radius: 10px;
+  padding: 6px 8px;
+  font: inherit;
+  color: var(--text);
+}
+.prism-theme-picker label { color: var(--muted); font-size: 0.9rem; }
+@media (max-width: 640px){
+  .prism-theme-picker label { display:none; }
+}

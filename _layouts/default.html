@@ -11,11 +11,52 @@
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap" rel="stylesheet">
     <link href="https://fonts.cdnfonts.com/css/avenir" rel="stylesheet">
     <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
 
-        <link rel="stylesheet" media="(prefers-color-scheme: light)" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
-    <link rel="stylesheet" media="(prefers-color-scheme: dark)" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
+    <script>
+      (function() {
+        // Available theme names from Prism 1.29.0 CDN
+        var lightThemes = ["prism", "prism-solarizedlight", "prism-ghcolors"];
+        var darkThemes  = ["prism-okaidia", "prism-tomorrow", "prism-vsc-dark-plus"];
+        function dayOfYear(d){ var start=new Date(d.getFullYear(),0,0); var diff=d - start; return Math.floor(diff/86400000); }
+        var isDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        var themes = isDark ? darkThemes : lightThemes;
+        var idx = dayOfYear(new Date()) % themes.length;
+        var theme = themes[idx];
+        var href = 'https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/' + theme + '.min.css';
+        var link = document.createElement('link');
+        link.id = 'prism-theme';
+        link.rel = 'stylesheet';
+        link.href = href;
+        link.setAttribute('crossorigin', 'anonymous');
+        link.setAttribute('referrerpolicy', 'no-referrer');
+        document.head.appendChild(link);
+
+        // React to scheme changes
+        if (window.matchMedia) {
+          var mq = window.matchMedia('(prefers-color-scheme: dark)');
+          mq.addEventListener('change', function() {
+            var head = document.head;
+            var old = document.getElementById('prism-theme');
+            if (old) head.removeChild(old);
+            var nowDark = mq.matches;
+            var tset = nowDark ? darkThemes : lightThemes;
+            var tidx = dayOfYear(new Date()) % tset.length;
+            var th = tset[tidx];
+            var href2 = 'https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/' + th + '.min.css';
+            var link2 = document.createElement('link');
+            link2.id = 'prism-theme';
+            link2.rel = 'stylesheet';
+            link2.href = href2;
+            link2.setAttribute('crossorigin', 'anonymous');
+            link2.setAttribute('referrerpolicy', 'no-referrer');
+            head.appendChild(link2);
+          });
+        }
+      })();
+    </script>
     {% include mathjax.html %}
+    <link id="prism-theme-override" rel="stylesheet" href="" disabled>
   </head>
   <body>
     <header class="site-header">
@@ -25,6 +66,17 @@
           <a href="{{ '/' | relative_url }}">首页</a>
           <a href="{{ '/about/' | relative_url }}">关于</a>
         </nav>
+        <form class="prism-theme-picker" style="display:inline-block; margin-left: 12px;">
+          <label for="prism-theme-select" style="margin-right:6px;">高亮主题</label>
+          <select id="prism-theme-select" aria-label="Prism code theme">
+            <option value="auto">自动(跟随系统)</option>
+            <option value="default-light">Light: Default</option>
+            <option value="coy">Light: Coy</option>
+            <option value="solarizedlight">Light: Solarized</option>
+            <option value="okaidia">Dark: Okaidia</option>
+            <option value="tomorrow">Dark: Tomorrow</option>
+          </select>
+        </form>
       </div>
     </header>
 
@@ -36,11 +88,10 @@
       <div class="container">
         <p>© {{ site.time | date: "%Y" }} lzray的博客 · 由 Jekyll & GitHub Pages 驱动</p>
       </div>
-    </footer>    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    </footer>
 
-    <script src="{{ \'/assets/js/code-lang.js\' | relative_url }}"></script>
+
+<script src="{{ \'/assets/js/code-lang.js\' | relative_url }}"></script>
     <script src="{{ '/assets/js/toc.js' | relative_url }}"></script>
   </body>
 </html>

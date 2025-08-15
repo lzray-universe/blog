@@ -11,20 +11,21 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // --- Inline code highlighting -------------------------------------------
-  // Give inline <code> (not in <pre>) Prism language classes via simple heuristics
+  // Assign language classes to inline <code> (not inside <pre>).
   const guessInlineLang = (text) => {
     const t = text.trim();
 
     // Quick markers
-    if (/^<!?DOCTYPE|<\/?[a-zA-Z]/.test(t)) return 'markup'; // looks like HTML/XML
+    if (/^<!?DOCTYPE|<\/?[a-zA-Z]/.test(t)) return 'markup'; // HTML/XML
     if (/^(SELECT|UPDATE|INSERT|DELETE|CREATE|DROP)\b/i.test(t)) return 'sql';
     if (/^#include|std::|int\s+main\s*\(/.test(t)) return 'cpp';
-    if (/\b(def|import|from|lambda|print\()/m.test(t)) return 'python';
+    if (/(^|\s)(class|public|private|protected|new\s+[A-Z]|System\.out\.println)\b/.test(t)) return 'java';
+    if (/\b(def|import|from|lambda|print\()/.test(t)) return 'python';
     if (/\b(let|const|var|function|=>|console\.log)\b/.test(t)) return 'javascript';
     if (/^[\{\[][\s\S]*[\}\]]$/.test(t) && /[:,]/.test(t)) return 'json'; // simple JSON-ish
     if (/(^|\s)(git|npm|pnpm|yarn|pip|python|node|cd|ls|cat|grep|curl|wget)(\s|$)/.test(t)) return 'bash';
     if (/\b([a-z-]+)\s*:\s*[^;]+;/.test(t)) return 'css'; // property: value;
-    return null; // unknown, keep as plain text
+    return 'clike'; // fallback for short/ambiguous snippets
   };
 
   document.querySelectorAll(':not(pre) > code').forEach(code => {
@@ -33,16 +34,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const txt = code.textContent || '';
     const lang = guessInlineLang(txt);
-    if (lang) {
-      code.classList.add('language-' + lang);
-    }
+    code.classList.add('language-' + lang);
   });
 
   // Trigger Prism after classes are set so highlighting and line numbers render correctly
   if (window.Prism && typeof window.Prism.highlightAll === 'function') {
     window.Prism.highlightAll();
   } else if (window.Prism && typeof window.Prism.highlightElement === 'function') {
-    // Fallback: explicitly highlight any code elements not handled yet
     document.querySelectorAll('code[class*="language-"]').forEach(el => Prism.highlightElement(el));
   }
 });
