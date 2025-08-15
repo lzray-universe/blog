@@ -140,16 +140,55 @@ ul.post-list li:hover {
 a { color: var(--link); text-decoration: none; }
 a:hover { text-decoration: underline; }
 
-pre, code {
-  background: var(--code-bg);
-  border-radius: 12px;
+code {
   font-family: "JetBrains Mono", "DengXian", monospace;
 }
-code { padding: 2px 6px; }
 pre {
+  background: var(--code-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+  font-family: "JetBrains Mono", "DengXian", monospace;
   padding: 14px;
   overflow: auto;
+}
+
+/* 多行代码块样式 */
+.highlighter-rouge {
+  position: relative;
+  background: var(--code-bg);
   border: 1px solid var(--glass-border);
+  border-radius: 12px;
+  overflow: hidden;
+}
+.highlighter-rouge pre {
+  margin: 0;
+  background: transparent;
+  border: none;
+}
+.highlighter-rouge code::before {
+  content: attr(data-lang);
+  position: absolute;
+  top: 6px;
+  right: 10px;
+  font-size: 12px;
+  color: var(--muted);
+}
+.highlighter-rouge .rouge-table {
+  width: 100%;
+  border-spacing: 0;
+}
+.highlighter-rouge .rouge-table td {
+  padding: 0;
+}
+.highlighter-rouge .gutter {
+  user-select: none;
+  text-align: right;
+  padding: 0 12px;
+  border-right: 1px solid var(--glass-border);
+  color: var(--muted);
+}
+.highlighter-rouge .code {
+  padding-left: 12px;
 }
 
 blockquote {
