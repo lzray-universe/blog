@@ -1,23 +1,30 @@
 (function(){
-  const THEMES = {
-    "default-light": "https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css",
-    "coy": "https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-coy.min.css",
-    "solarizedlight": "https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-solarizedlight.min.css",
-    "okaidia": "https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css",
-    "tomorrow": "https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
-  };
   const KEY = "prismThemeChoice";
+
+  function q(selector){ return Array.from(document.querySelectorAll(selector)); }
+
   function applyTheme(value){
-    const link = document.getElementById("prism-theme-override");
-    if(!link) return;
-    if (value === "auto" || !THEMES[value]) {
-      link.setAttribute("href", "");
-      link.setAttribute("disabled", "disabled");
+    const autoLight = q('link[data-prism-auto="light"]');
+    const autoDark  = q('link[data-prism-auto="dark"]');
+    const named = q('link[data-prism-theme]');
+
+    if (value === "auto") {
+      // enable auto light/dark
+      autoLight.forEach(l => l.disabled = false);
+      autoDark.forEach(l => l.disabled = false);
+      // disable all named
+      named.forEach(l => l.disabled = true);
     } else {
-      link.removeAttribute("disabled");
-      link.setAttribute("href", THEMES[value]);
+      // disable auto
+      autoLight.forEach(l => l.disabled = true);
+      autoDark.forEach(l => l.disabled = true);
+      // enable only chosen named, disable others
+      named.forEach(l => {
+        l.disabled = (l.getAttribute('data-prism-theme') !== value);
+      });
     }
   }
+
   function initPicker(){
     const sel = document.getElementById("prism-theme-select");
     if(!sel) return;
@@ -30,5 +37,6 @@
       applyTheme(v);
     });
   }
+
   document.addEventListener("DOMContentLoaded", initPicker);
 })();

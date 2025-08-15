@@ -55,9 +55,18 @@
         }
       })();
     </script>
+        <!-- Prism auto themes (system light/dark) -->
+    <link rel="stylesheet" data-prism-auto="light" media="(prefers-color-scheme: light)" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css">
+    <link rel="stylesheet" data-prism-auto="dark" media="(prefers-color-scheme: dark)" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css">
     {% include mathjax.html %}
-    <link id="prism-theme-override" rel="stylesheet" href="" disabled>
-  </head>
+    <!-- Prism named themes for manual selection (disabled by default) -->
+    <link rel="stylesheet" data-prism-theme="default-light" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" disabled>
+    <link rel="stylesheet" data-prism-theme="coy" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-coy.min.css" disabled>
+    <link rel="stylesheet" data-prism-theme="solarizedlight" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-solarizedlight.min.css" disabled>
+    <link rel="stylesheet" data-prism-theme="okaidia" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css" disabled>
+    <link rel="stylesheet" data-prism-theme="tomorrow" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" disabled>
+
+</head>
   <body>
     <header class="site-header">
       <div class="container">
