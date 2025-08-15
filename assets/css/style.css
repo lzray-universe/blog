@@ -35,9 +35,9 @@ html, body { height: 100%; }
 body {
   margin: 0;
   color: var(--text);
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans CJK SC",
-               "Helvetica Neue", Arial, "Noto Sans", "PingFang SC", "Hiragino Sans GB",
-               "Microsoft YaHei", sans-serif;
+  font-family: "Avenir", "DengXian", -apple-system, BlinkMacSystemFont, "Segoe UI",
+               Roboto, "Noto Sans CJK SC", "Helvetica Neue", Arial, "Noto Sans",
+               "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
   line-height: 1.75;
 
   /* 背景渐变，可在 /assets/img/bg.jpg 添加自定义背景图 */
@@ -152,6 +152,7 @@ a:hover { text-decoration: underline; }
 pre, code {
   background: var(--code-bg);
   border-radius: 12px;
+  font-family: "JetBrains Mono", "DengXian", monospace;
 }
 code { padding: 2px 6px; }
 pre {
@@ -196,5 +197,14 @@ td, th {
   :root { --radius: 18px; }
   .site-header .container, main.container.content, .site-footer .container {
     border-radius: 16px;
+  }
+  .site-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+  }
+  .site-nav a {
+    margin-left: 0;
   }
 }
