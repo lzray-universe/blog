@@ -319,3 +319,51 @@ html, body { overflow-x: hidden; }
 
 /* Safer defaults to prevent any stray overflow on narrow screens */
 * { box-sizing: border-box; }
+
+
+/* --- Enforce JetBrains Mono for code --- */
+code, pre, kbd, samp, tt,
+pre[class*="language-"], code[class*="language-"] {
+  font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace !important;
+  font-variant-ligatures: none;
+  font-feature-settings: "liga" 0, "calt" 0;
+}
+
+/* Improve contrast and adapt variables in dark mode */
+:root { color-scheme: light dark; }
+@media (prefers-color-scheme: dark) {
+  :root {
+    --glass-bg: rgba(20, 20, 24, 0.55);
+    --glass-border: rgba(255, 255, 255, 0.08);
+    --text: #eaeaea;
+    --muted: #a7a7a7;
+    --link: #4da3ff;
+    --code-bg: rgba(0, 0, 0, 0.35);
+  }
+  body { background-color: #0c0c0f; }
+}
+
+
+/* --- Inline MathJax theming (no font change) --- */
+/* Make inline formulas look like inline code chips; do not touch font-family */
+mjx-container[jax="CHTML"][display="inline"] {
+  background: var(--code-bg);
+  padding: 0 4px;
+  border-radius: 6px;
+  margin: 0 2px;
+}
+
+/* Optional: give block formulas a soft panel with scroll safety */
+mjx-container[jax="CHTML"][display="block"] {
+  background: var(--code-bg);
+  border-radius: var(--radius);
+  padding: 12px 14px;
+  overflow-x: auto;
+}
+
+
+/* --- Inline code background none --- */
+code[class*="language-"] {
+  background: none !important;
+  padding: 0; /* keep inline flow */
+}
