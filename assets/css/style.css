@@ -1,12 +1,10 @@
-/* ===== Glassmorphism + Rounded Corners + Background Image ===== */
 
-/* ---------- 基础变量 ---------- */
 :root {
   --maxw: 980px;
   --radius: 22px;
   --gap: 16px;
 
-  /* 玻璃牌面（亮色） */
+
   --glass-bg: rgba(255, 255, 255, 0.14);
   --glass-border: rgba(255, 255, 255, 0.35);
   --text: #111;
@@ -16,7 +14,6 @@
   --shadow: 0 10px 30px rgba(0,0,0,0.15);
 }
 
-/* 暗色模式（跟随系统偏好） */
 @media (prefers-color-scheme: dark) {
   :root {
     --glass-bg: rgba(20, 20, 26, 0.35);
@@ -29,7 +26,6 @@
   }
 }
 
-/* ---------- 页面背景（含透视视差） ---------- */
 * { box-sizing: border-box; }
 html, body { height: 100%; }
 body {
@@ -40,17 +36,15 @@ body {
                "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
   line-height: 1.75;
 
-  /* 背景渐变，可在 /assets/img/bg.jpg 添加自定义背景图 */
   background:
     radial-gradient(1200px 800px at 10% 10%, rgba(255,255,255,0.25), rgba(255,255,255,0) 40%),
     radial-gradient(1000px 700px at 90% 20%, rgba(255,255,255,0.16), rgba(255,255,255,0) 45%),
     linear-gradient(180deg, rgba(255,255,255,0.22), rgba(255,255,255,0.08));
   /* 如需背景图，可在上方 background 列表末尾添加: 
      url('/assets/img/bg.jpg') center/cover fixed no-repeat */
-  background-attachment: fixed, fixed, fixed;  /* 轻微“透视”效果 */
+  background-attachment: fixed, fixed, fixed; 
 }
 
-/* ---------- 通用容器 & 玻璃卡片 ---------- */
 .container {
   max-width: var(--maxw);
   padding: 0 18px;
@@ -66,7 +60,6 @@ body {
   box-shadow: var(--shadow);
 }
 
-/* ---------- 顶部导航（玻璃） ---------- */
 .site-header {
   border: none;
   padding: 20px 0 10px;
@@ -78,7 +71,7 @@ body {
   padding: 14px 16px;
   gap: var(--gap);
 }
-.site-header .container { /* 让 header 也玻璃化 */
+.site-header .container {
   backdrop-filter: blur(14px) saturate(160%);
   -webkit-backdrop-filter: blur(14px) saturate(160%);
   background: var(--glass-bg);
@@ -113,14 +106,14 @@ body {
   text-decoration: none;
 }
 
-/* ---------- 主内容（玻璃卡片） ---------- */
+
 .content {
   padding: 26px 0 48px;
 }
 main.container.content {
   padding: 26px 18px 48px;
 }
-main.container.content { /* 直接让 main 成为玻璃卡片 */
+main.container.content { 
   backdrop-filter: blur(16px) saturate(160%);
   -webkit-backdrop-filter: blur(16px) saturate(160%);
   background: var(--glass-bg);
@@ -129,7 +122,6 @@ main.container.content { /* 直接让 main 成为玻璃卡片 */
   box-shadow: var(--shadow);
 }
 
-/* 列表/文章排版细节 */
 .post-title, .page-title { margin: 6px 0 10px; }
 .post-meta { color: var(--muted); font-size: 14px; margin-bottom: 14px; }
 
@@ -148,7 +140,6 @@ ul.post-list li:hover {
 a { color: var(--link); text-decoration: none; }
 a:hover { text-decoration: underline; }
 
-/* ---------- 代码块 / 引用 / 表格 ---------- */
 pre, code {
   background: var(--code-bg);
   border-radius: 12px;
@@ -177,7 +168,6 @@ td, th {
   background: var(--glass-bg);
 }
 
-/* ---------- 页脚（玻璃） ---------- */
 .site-footer {
   border: none;
   color: var(--muted);
@@ -192,7 +182,6 @@ td, th {
   box-shadow: var(--shadow);
 }
 
-/* ---------- 小屏优化 ---------- */
 @media (max-width: 640px) {
   :root { --radius: 18px; }
   .site-header .container, main.container.content, .site-footer .container {
