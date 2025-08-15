@@ -52,6 +52,15 @@ body {
   overflow-wrap: break-word;
 }
 
+/* allow header, footer and main content to stretch full width */
+.site-header .container,
+main.container.content,
+.site-footer .container {
+  max-width: none;
+  margin: 0;
+  border-radius: 0;
+}
+
 .glass {
   backdrop-filter: blur(14px) saturate(150%);
   -webkit-backdrop-filter: blur(14px) saturate(150%);
@@ -148,12 +157,12 @@ code {
 pre {
   position: relative;
   background: var(--code-bg);
-  border: 1px solid var(--glass-border);
-  border-radius: 12px;
   font-family: "JetBrains Mono", "DengXian", monospace;
   padding: 14px;
-  overflow-x: auto;
-  max-width: 100%;
+  overflow: auto;
+  width: 100%;
+  border: none;
+  border-radius: 0;
 }
 
 pre[data-lang]::before {
@@ -162,6 +171,11 @@ pre[data-lang]::before {
   top: 6px;
   right: 10px;
   font-size: 12px;
+  color: var(--muted);
+}
+
+/* ensure Prism line numbers are visible */
+pre.line-numbers .line-numbers-rows span:before {
   color: var(--muted);
 }
 
