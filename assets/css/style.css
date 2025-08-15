@@ -152,7 +152,7 @@ pre {
   border-radius: 12px;
   font-family: "JetBrains Mono", "DengXian", monospace;
   padding: 14px;
-  overflow: auto;
+  overflow-x: auto;
   max-width: 100%;
 }
 
