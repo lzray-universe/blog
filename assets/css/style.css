@@ -295,3 +295,27 @@ td, th {
   .post-wrapper { display: block; }
   #outline-panel, #container-floating { display: none; }
 }
+
+/* --- Landscape overflow fix --- */
+html, body { overflow-x: hidden; }
+
+/* Avoid parallax/attachment issues on mobile landscape */
+@media (orientation: landscape) and (max-height: 500px) {
+  body { background-attachment: scroll, scroll, scroll; }
+  .site-header .container, main.container.content, .site-footer .container {
+    border-left-width: 0;
+    border-right-width: 0;
+    border-radius: 0;
+    margin-left: 0;
+    margin-right: 0;
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+  /* Keep code, tables, images inside the viewport */
+  pre { max-width: 100%; }
+  table { display: block; width: 100%; overflow-x: auto; }
+  img, video, iframe { max-width: 100%; height: auto; }
+}
+
+/* Safer defaults to prevent any stray overflow on narrow screens */
+* { box-sizing: border-box; }
