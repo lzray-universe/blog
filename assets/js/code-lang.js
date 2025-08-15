@@ -11,31 +11,41 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // --- Inline code highlighting -------------------------------------------
-  // Assign language classes to inline <code> (not inside <pre>).
   const guessInlineLang = (text) => {
     const t = text.trim();
-
     // Quick markers
-    if (/^<!?DOCTYPE|<\/?[a-zA-Z]/.test(t)) return 'markup'; // HTML/XML
+    if (/^<!?DOCTYPE|<\/?[a-zA-Z]/.test(t)) return 'markup'; // HTML/XML-ish
     if (/^(SELECT|UPDATE|INSERT|DELETE|CREATE|DROP)\b/i.test(t)) return 'sql';
     if (/^#include|std::|int\s+main\s*\(/.test(t)) return 'cpp';
-    if (/(^|\s)(class|public|private|protected|new\s+[A-Z]|System\.out\.println)\b/.test(t)) return 'java';
-    if (/\b(def|import|from|lambda|print\()/.test(t)) return 'python';
-    if (/\b(let|const|var|function|=>|console\.log)\b/.test(t)) return 'javascript';
-    if (/^[\{\[][\s\S]*[\}\]]$/.test(t) && /[:,]/.test(t)) return 'json'; // simple JSON-ish
+    if (/\b(def|import|from|lambda|print\()\b/.test(t)) return 'python';
+    if (/\b(let|const|var|function|=>|console\.log|return|if|for|while)\b/.test(t)) return 'javascript';
+    if (/^[\{\[][\s\S]*[\}\]]$/.test(t) && /[:,]/.test(t)) return 'json'; // very simple JSON-ish
     if (/(^|\s)(git|npm|pnpm|yarn|pip|python|node|cd|ls|cat|grep|curl|wget)(\s|$)/.test(t)) return 'bash';
     if (/\b([a-z-]+)\s*:\s*[^;]+;/.test(t)) return 'css'; // property: value;
-    return 'clike'; // fallback for short/ambiguous snippets
+    // Fallback: if it contains typical code punctuation, default to JS for some color
+    if (/[(){};=+\-*/%<>|&]/.test(t)) return 'javascript';
+    return null;
   };
 
   document.querySelectorAll(':not(pre) > code').forEach(code => {
-    // Skip if already has a Prism language
-    if (Array.from(code.classList).some(cls => cls.startsWith('language-'))) return;
+    const classes = Array.from(code.classList);
+    const hasRealLanguage = classes.some(cls => cls.startsWith('language-') && cls !== 'language-plaintext');
+    if (hasRealLanguage) return;
 
     const txt = code.textContent || '';
     const lang = guessInlineLang(txt);
-    code.classList.add('language-' + lang);
+    if (lang) {
+      // Clean up Rouge-related classes so Prism can take over
+      code.classList.remove('highlighter-rouge');
+      code.classList.remove('language-plaintext');
+      code.classList.add('language-' + lang);
+    }
   });
+
+  // Configure autoloader path for cdnjs (extra safety)
+  if (window.Prism && Prism.plugins && Prism.plugins.autoloader) {
+    Prism.plugins.autoloader.languages_path = 'https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/';
+  }
 
   // Trigger Prism after classes are set so highlighting and line numbers render correctly
   if (window.Prism && typeof window.Prism.highlightAll === 'function') {
