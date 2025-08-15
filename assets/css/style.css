@@ -140,6 +140,7 @@ ul.post-list li:hover {
 a { color: var(--link); text-decoration: none; }
 a:hover { text-decoration: underline; }
 
+
 code {
   font-family: "JetBrains Mono", "DengXian", monospace;
 }
@@ -153,19 +154,23 @@ pre {
 }
 
 /* 多行代码块样式 */
-.highlighter-rouge {
+.highlighter-rouge,
+.highlight {
   position: relative;
   background: var(--code-bg);
   border: 1px solid var(--glass-border);
   border-radius: 12px;
   overflow: hidden;
 }
-.highlighter-rouge pre {
+.highlighter-rouge pre,
+.highlight pre {
   margin: 0;
   background: transparent;
   border: none;
+  padding: 14px;
 }
-.highlighter-rouge code::before {
+.highlighter-rouge::before,
+.highlight::before {
   content: attr(data-lang);
   position: absolute;
   top: 6px;
@@ -173,59 +178,25 @@ pre {
   font-size: 12px;
   color: var(--muted);
 }
-.highlighter-rouge .rouge-table {
+.highlighter-rouge .rouge-table,
+.highlight .rouge-table {
   width: 100%;
   border-spacing: 0;
 }
-.highlighter-rouge .rouge-table td {
+.highlighter-rouge .rouge-table td,
+.highlight .rouge-table td {
   padding: 0;
 }
-.highlighter-rouge .gutter {
+.highlighter-rouge .gutter,
+.highlight .gutter {
   user-select: none;
   text-align: right;
   padding: 0 12px;
   border-right: 1px solid var(--glass-border);
   color: var(--muted);
 }
-.highlighter-rouge .code {
-  padding-left: 12px;
-}
-
-/* 多行代码块样式 */
-.highlighter-rouge {
-  position: relative;
-  background: var(--code-bg);
-  border: 1px solid var(--glass-border);
-  border-radius: 12px;
-  overflow: hidden;
-}
-.highlighter-rouge pre {
-  margin: 0;
-  border: none;
-}
-.highlighter-rouge code::before {
-  content: attr(data-lang);
-  position: absolute;
-  top: 6px;
-  right: 10px;
-  font-size: 12px;
-  color: var(--muted);
-}
-.highlighter-rouge .rouge-table {
-  width: 100%;
-  border-spacing: 0;
-}
-.highlighter-rouge .rouge-table td {
-  padding: 0;
-}
-.highlighter-rouge .gutter {
-  user-select: none;
-  text-align: right;
-  padding: 0 12px;
-  border-right: 1px solid var(--glass-border);
-  color: var(--muted);
-}
-.highlighter-rouge .code {
+.highlighter-rouge .code,
+.highlight .code {
   padding-left: 12px;
 }
 
