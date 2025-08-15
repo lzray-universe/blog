@@ -3,9 +3,9 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{% if page.title %}{{ page.title }} · {% endif %}{{ site.title }}</title>
+    <title>{% if page.title %}{{ page.title }} · {% endif %}lzray的博客</title>
     {%- seo -%}
-    <link rel="alternate" type="application/atom+xml" title="{{ site.title }} Feed" href="{{ '/feed.xml' | relative_url }}">
+    <link rel="alternate" type="application/atom+xml" title="lzray的博客 Feed" href="{{ '/feed.xml' | relative_url }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap" rel="stylesheet">
@@ -16,7 +16,7 @@
   <body>
     <header class="site-header">
       <div class="container">
-        <a class="site-title" href="{{ '/' | relative_url }}">{{ site.title }}</a>
+        <a class="site-title" href="{{ '/' | relative_url }}">lzray的博客</a>
         <nav class="site-nav">
           <a href="{{ '/' | relative_url }}">首页</a>
           <a href="{{ '/about/' | relative_url }}">关于</a>
@@ -30,7 +30,7 @@
 
     <footer class="site-footer">
       <div class="container">
-        <p>© {{ site.time | date: "%Y" }} {{ site.title }} · 由 Jekyll & GitHub Pages 驱动</p>
+        <p>© {{ site.time | date: "%Y" }} lzray的博客 · 由 Jekyll & GitHub Pages 驱动</p>
       </div>
     </footer>
   </body>
