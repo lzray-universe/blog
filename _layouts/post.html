@@ -1,14 +1,20 @@
 ---
 layout: default
 ---
-<article class="post">
-  <h1 class="post-title">{{ page.title }}</h1>
-  <div class="post-meta">
-    <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: "%Y-%m-%d" }}</time>
-    {% if page.categories %} · {{ page.categories | join: ", " }}{% endif %}
-    {% if page.tags %} · {{ page.tags | join: ", " }}{% endif %}
-  </div>
-  <div class="post-content">
-    {{ content }}
-  </div>
-</article>
+<div class="post-wrapper">
+  <aside id="outline-panel"></aside>
+  <article id="post-content" class="post">
+    <h1 class="post-title">{{ page.title }}</h1>
+    <div class="post-meta">
+      <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: "%Y-%m-%d" }}</time>
+      {% if page.categories %} · {{ page.categories | join: ", " }}{% endif %}
+      {% if page.tags %} · {{ page.tags | join: ", " }}{% endif %}
+    </div>
+    <div class="post-content">
+      {{ content }}
+    </div>
+  </article>
+</div>
+<div id="container-floating">
+  <div id="floating-button"><p class="more">&gt;</p></div>
+</div>
