@@ -15,8 +15,8 @@ kramdown:
   math_engine: mathjax
   hard_wrap: false
   syntax_highlighter_opts:
-    line_numbers: true
-
+    block:
+      line_numbers: true
 highlighter: rouge
 
 plugins:
