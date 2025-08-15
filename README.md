@@ -1,8 +1,7 @@
 # 个人博客（Jekyll + GitHub Actions + GitHub Pages）
 
-一键上传即可使用：支持 **Markdown**、**LaTeX（MathJax）**、RSS、SEO、站点地图。
 
-## 快速开始（只需 3 步）
+## 快速开始
 1. 新建一个 GitHub 仓库（例如 `my-blog`，默认分支为 `main`）。
 2. 直接上传本 ZIP 的全部内容到仓库根目录。然后 **Commit**。
 3. 在仓库 `Settings → Pages` 中：
@@ -12,7 +11,6 @@
 
 > **之后写文章**：只需要在 `_posts/` 里新增 Markdown 文件（命名形如 `YYYY-MM-DD-your-title.md`），推送到 `main` 分支，Actions 会自动构建并发布。
 
----
 
 ## 写作说明
 
@@ -44,15 +42,6 @@
   ---
   ```
 
-## 本地预览（可选）
-如果你想在本地预览：
-```bash
-# 需要 Ruby（>=3.0）
-gem install bundler
-bundle install
-bundle exec jekyll serve
-```
-然后打开 `http://127.0.0.1:4000`。
 
 ## 常用配置
 - 修改站点标题：`_config.yml` 的 `title` / `description`。
@@ -65,8 +54,8 @@ bundle exec jekyll serve
 - 构建完成后自动推送到 `gh-pages` 分支；Pages 配置指向该分支即可。
 - 你可以在仓库 `Actions` 页面查看构建日志。
 
-> 如果你已有自定义域名，在 `Settings → Pages` 里添加域名，并在仓库根目录创建 `CNAME` 文件（内容为你的域名）。
+> 如果你已有自定义域名，在 `Settings → Pages` 里添加域名，并在仓库根目录创建 `CNAME` 文件
 
 ---
 
-**许可证**：MIT。尽情使用与二次定制。
+
