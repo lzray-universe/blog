@@ -2,12 +2,7 @@
 
 
 ## 快速开始
-1. 新建一个 GitHub 仓库（例如 `my-blog`，默认分支为 `main`）。
-2. 直接上传本 ZIP 的全部内容到仓库根目录。然后 **Commit**。
-3. 在仓库 `Settings → Pages` 中：
-   - **Source** 选择 `Deploy from a branch`
-   - **Branch** 选择 `gh-pages`（/root），保存。  
-   首次构建完成后，访问右上角显示的 Pages 链接（形如 `https://<你的用户名>.github.io/<仓库名>/`）。
+
 
 > **之后写文章**：只需要在 `_posts/` 里新增 Markdown 文件（命名形如 `YYYY-MM-DD-your-title.md`），推送到 `main` 分支，Actions 会自动构建并发布。
 
