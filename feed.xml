@@ -1,0 +1,1579 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="zh-CN"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" hreflang="zh-CN" /><updated>2025-09-24T18:41:08+08:00</updated><id>/feed.xml</id><title type="html">lzray的博客</title><subtitle>使用 Jekyll + GitHub Actions + GitHub Pages 的个人博客</subtitle><entry><title type="html">出一道有趣的题目</title><link href="/2025/08/18/%E5%87%BA%E4%B8%80%E9%81%93%E6%9C%89%E8%B6%A3%E7%9A%84%E9%A2%98%E7%9B%AE/" rel="alternate" type="text/html" title="出一道有趣的题目" /><published>2025-08-18T00:00:00+08:00</published><updated>2025-08-18T00:00:00+08:00</updated><id>/2025/08/18/%E5%87%BA%E4%B8%80%E9%81%93%E6%9C%89%E8%B6%A3%E7%9A%84%E9%A2%98%E7%9B%AE</id><content type="html" xml:base="/2025/08/18/%E5%87%BA%E4%B8%80%E9%81%93%E6%9C%89%E8%B6%A3%E7%9A%84%E9%A2%98%E7%9B%AE/"><![CDATA[<h1 id="出一道有趣的题目">出一道有趣的题目</h1>
+
+<hr />
+
+<h1 id="普通版">普通版</h1>
+
+<h2 id="1-定义">1. 定义</h2>
+
+<h3 id="11-位置与双出现模式">1.1 位置与双出现模式</h3>
+
+<ul>
+  <li><strong>位置</strong>：对长度为 $n$ 的序列，用 $i\in[1,n]$ 表示下标。</li>
+  <li><strong>双出现模式</strong>：长度为偶数 $n$，记 $m=n/2$。序列 $A=(A_1,\dots,A_n)$ 满足：对每个 $k\in{1,\dots,m}$，在 $A$ 中恰好出现两次。
+对每个 $k$，记两次出现位置为 $L_k&lt;R_k$，并记开区间 $(L_k,R_k)$。</li>
+</ul>
+
+<h3 id="12-规范翻译为置换">1.2 规范翻译为置换</h3>
+
+<p>给定一个双出现模式 $A$，按下述<strong>唯一规则</strong>生成置换 $p$（即 $p$ 为 ${1,\dots,n}$ 的某个排列）：</p>
+
+<p>按 $k=1,2,\dots,m$ 的<strong>递增顺序</strong>处理每个位置对 $(L_k,R_k)$。在处理 $k$ 时：</p>
+
+\[s_k \;=\; \#\{\,t\in(L_k,R_k)\mid \text{位置 }t\text{ 已在此前步骤被赋值}\,\}.\]
+
+<ul>
+  <li>若 $s_k$ 为<strong>偶数</strong>，则令 $p_{L_k}=2k-1,\ p_{R_k}=2k$；</li>
+  <li>若 $s_k$ 为<strong>奇数</strong>，则令 $p_{L_k}=2k,\ \ p_{R_k}=2k-1$。</li>
+</ul>
+
+<p>处理结束后得到的 $p$ <strong>确定且唯一</strong>。</p>
+
+<blockquote>
+  <p>直观记忆：每个 $k$ 对应一对连续数 $(2k-1,2k)$，按其区间内“<strong>已赋值</strong>个数”的<strong>奇偶</strong>决定左右顺序。</p>
+</blockquote>
+
+<hr />
+
+<h2 id="2-任务">2. 任务</h2>
+
+<p>你将同时拿到 $m_{\text{pat}}$ 个双出现模式（长度均为同一个 $n$），并需要回答 $q$ 个查询。每个查询属于以下两类之一：</p>
+
+<ul>
+  <li><strong>类型 1（取值）</strong>：给定模式编号 $z$ 与位置 $i$，输出该模式经规范翻译所得置换 $p^{(z)}$ 的第 $i$ 项 $p^{(z)}_i$。</li>
+  <li>
+    <p><strong>类型 2（最早强分离）</strong>：给定两个模式编号 $u,v$，设它们对应的置换分别为 $p^{(u)},p^{(v)}$。找出最小的位置 $c$，满足</p>
+
+\[\bigl|\,p^{(u)}_c - p^{(v)}_c\,\bigr|\ \ge\ 2.\]
+
+    <p>若两个模式完全相同，从而不存在这样的 $c$，则输出 $-1$。</p>
+  </li>
+</ul>
+
+<blockquote>
+  <p>注：“<strong>强分离</strong>”指同列数值差至少 2；该性质在本规则下总是可检测的。</p>
+</blockquote>
+
+<hr />
+
+<h2 id="3-输入与输出">3. 输入与输出</h2>
+
+<h3 id="输入">输入</h3>
+
+<ul>
+  <li>第一行：三个整数 $n,m_{\text{pat}},q$（$n$ 为偶数）。</li>
+  <li>接下来 $m_{\text{pat}}$ 行：第 $z$ 行给出一个长度为 $n$ 的双出现模式 $A^{(z)}$（每行单独合法：每个 $k\in[1,n/2]$ 恰出现两次）。</li>
+  <li>
+    <p>接下来 $q$ 行：每行一个查询：</p>
+
+    <ul>
+      <li>形如 <code>1 z i</code>：类型 1 查询（模式 $z$、位置 $i$）。</li>
+      <li>形如 <code>2 u v</code>：类型 2 查询（比较模式 $u,v$）。</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="输出">输出</h3>
+
+<ul>
+  <li>
+    <p>对每个查询输出一行：</p>
+
+    <ul>
+      <li>类型 1：输出一个整数 $p^{(z)}_i$。</li>
+      <li>
+        <p>类型 2：若存在强分离位置，输出三个整数</p>
+
+\[c\ \ p^{(u)}_c\ \ p^{(v)}_c\]
+
+        <p>其中 $c$ 是最小满足条件的位置；若不存在，输出 $-1$。</p>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<hr />
+
+<h2 id="4-约束">4. 约束</h2>
+
+<ul>
+  <li>$2\le n\le 2\times 10^5$，$n$ 为偶数。</li>
+  <li>$1\le m_{\text{pat}},q\le 2\times 10^5$。</li>
+  <li><strong>总规模限制</strong>：读取所有模式的元素总数不超过给定上限（例如 $\sum n \le 10^6$）。</li>
+  <li>输入保证每个模式各自合法（每个值 $k$ 恰两次）。</li>
+  <li>评测为单组数据；建议实现目标：时间 1s / 内存 $\le 1$GB。</li>
+</ul>
+
+<hr />
+
+<h2 id="5-样例">5. 样例</h2>
+
+<h3 id="输入-1">输入</h3>
+
+<pre><code>6 3 5
+1 2 1 3 2 3
+1 3 2 1 2 3
+1 2 3 1 3 2
+1 1 3
+1 2 4
+2 1 2
+2 1 3
+2 2 3
+</code></pre>
+
+<h3 id="解释与可能输出">解释与可能输出</h3>
+
+<ul>
+  <li>模式 1 的规范置换为 <code>1 4 2 6 3 5</code></li>
+  <li>模式 2 的规范置换为 <code>1 6 4 2 3 5</code></li>
+  <li>模式 3 的规范置换为 <code>1 4 6 2 5 3</code></li>
+</ul>
+
+<p>对应查询输出：</p>
+
+<pre><code>2
+2
+2 4 6
+3 2 6
+2 6 4
+</code></pre>
+
+<hr />
+
+<hr />
+
+<h1 id="进阶">进阶</h1>
+
+<h2 id="1-定义-1">1. 定义</h2>
+
+<h3 id="11-双出现模式与规范翻译回顾">1.1 双出现模式与规范翻译（回顾）</h3>
+
+<p>与普通版一致。对每个模式 $A$ 先做 1.2 的规范翻译，得到置换的<strong>结构编码</strong>：</p>
+
+<ul>
+  <li>$J_i \in [1,m]$：位置 $i$ 属于哪一个“对号” $k$（即 $A_i$ 的标签）；</li>
+  <li>$S_i \in {0,1}$：该位置在其对内取<strong>小值(0)</strong>还是<strong>大值(1)</strong>；
+并有基准置换</li>
+</ul>
+
+\[p^{\text{base}}_i \;=\; 2J_i - 1 + S_i .\]
+
+<h3 id="12-偏置翻译">1.2 偏置翻译</h3>
+
+<p>对每个模式引入一个<strong>可变偏置</strong>数组 $B=(B_1,\dots,B_m)\in{0,1}^m$，初始全为 0。
+当前（受偏置后的）置换定义为</p>
+
+\[p_i \;=\; 2J_i - 1 + \bigl(S_i \oplus B_{J_i}\bigr).\]
+
+<p>含义：当且仅当 $B_k=1$ 时，对号 $k$ 的两格 $(2k-1,2k)$ 在当前状态中被整体<strong>翻转</strong>。</p>
+
+<h3 id="13-强分离回顾">1.3 强分离（回顾）</h3>
+
+<p>给定两个置换 $p^{(u)},p^{(v)}$，称位置 $c$ <strong>强分离</strong>，若</p>
+
+\[\bigl|p^{(u)}_c-p^{(v)}_c\bigr|\ \ge\ 2.\]
+
+<p>若对所有 $c$ 都不成立，则称二者无强分离。</p>
+
+<blockquote>
+  <p>等价表述（判定帮助）：记 $\Pi^{(z)}<em>i$ $=$ $(J^{(z)}_i,$ $S^{(z)}_i$ $\oplus$ $B^{(z)}</em>{J^{(z)}_i})$。
+两模式在列 $i$ <strong>不强分离</strong> 当且仅当满足其一：</p>
+
+  <ol>
+    <li>$J^{(u)}_i=J^{(v)}_i$ 且第二分量相等（同号同位 → <strong>数值相等</strong>）；</li>
+    <li>$|J^{(u)}_i-J^{(v)}_i|=1$ 且二者第二分量恰为 $(1,0)$ 或 $(0,1)$（相邻号、形成<strong>相邻整数</strong>）。
+否则为强分离。</li>
+  </ol>
+</blockquote>
+
+<hr />
+
+<h2 id="2-任务-1">2. 任务</h2>
+
+<p>你拿到 $m_{\text{pat}}$ 个双出现模式 $A^{(1)},\dots,A^{(m_{\text{pat}})}$（长度均为同一个 $n$，令 $m=n/2$）。
+对每个模式先求 $(J^{(z)},S^{(z)})$，并维护<strong>可变偏置</strong> $B^{(z)}$。需要在线处理 $q$ 个操作：</p>
+
+<ol>
+  <li><strong>取值</strong></li>
+</ol>
+
+<pre><code>1  z  i
+</code></pre>
+
+<p>输出当前 $p^{(z)}_i$。</p>
+
+<ol>
+  <li><strong>最早强分离</strong></li>
+</ol>
+
+<pre><code>2  u  v  l  r
+</code></pre>
+
+<table>
+  <tbody>
+    <tr>
+      <td>在区间 $[l,r]$ 内找最小 $c$，使 $\bigl</td>
+      <td>p^{(u)}_c-p^{(v)}_c\bigr</td>
+      <td>\ge 2$。若不存在输出 -1。</td>
+    </tr>
+  </tbody>
+</table>
+
+<ol>
+  <li><strong>偏置区间翻转</strong></li>
+</ol>
+
+<pre><code>3  z  a  b
+</code></pre>
+
+<p>对所有对号 $k\in[a,b]$ 执行 $B^{(z)}_k \gets B^{(z)}_k \oplus 1$。</p>
+
+<hr />
+
+<h2 id="3-输入输出">3. 输入输出</h2>
+
+<h3 id="输入-2">输入</h3>
+
+<ul>
+  <li>第一行：三个整数 $n,m_{\text{pat}},q$（$n$ 为偶数）。</li>
+  <li>接下来 $m_{\text{pat}}$ 行：第 $z$ 行给出模式 $A^{(z)}$ 的 $n$ 个整数（双出现合法）。</li>
+  <li>接下来 $q$ 行：每行一个操作，格式如上三类之一。</li>
+</ul>
+
+<h3 id="输出-1">输出</h3>
+
+<ul>
+  <li>类型 1：输出一行当前的 $p^{(z)}_i$。</li>
+  <li>
+    <p>类型 2：若存在强分离位置，输出</p>
+
+\[c\ \ p^{(u)}_c\ \ p^{(v)}_c\]
+
+    <p>为最小满足位置及两值；否则输出 $-1$。</p>
+  </li>
+  <li>类型 3：无输出。</li>
+</ul>
+
+<hr />
+
+<h2 id="4-约束-1">4. 约束</h2>
+
+<ul>
+  <li>$2\le n\le 2\times 10^5$，$n$ 为偶数，记 $m=n/2$。</li>
+  <li>$1\le m_{\text{pat}},q\le 2\times 10^5$。</li>
+  <li><strong>总规模限制</strong>：$m_{\text{pat}}\cdot n \le 10^6$。</li>
+  <li>输入保证每个模式各自合法。</li>
+  <li>单组数据；建议目标：时间 2s / 内存 $\le 1$GB。</li>
+</ul>
+
+<hr />
+
+<h2 id="5-样例-1">5. 样例</h2>
+
+<h3 id="输入-3">输入</h3>
+
+<pre><code>6 3 8
+1 2 1 3 2 3
+1 3 2 1 2 3
+1 2 3 1 3 2
+1 1 3
+2 1 2 1 6
+3 2 1 2
+2 1 2 1 6
+1 2 4
+3 1 1 1
+2 1 3 2 6
+2 2 3 1 3
+</code></pre>
+
+<h3 id="一种可能输出">一种可能输出</h3>
+
+<pre><code>3
+2 4 6
+2 6 4
+2
+3 2 6
+2 6 4
+</code></pre>
+
+<p>（注：偏置区间翻转会改变后续查询的列内左右次序，样例仅示交互效果。）</p>
+
+<hr />
+
+<h2 id="6-判定等价便于实现">6. 判定等价（便于实现）</h2>
+
+<p>将每列视作二元对 $\Pi^{(z)}<em>i$ $=$ $(J^{(z)}_i,$ $S^{(z)}_i$ $\oplus$ $B^{(z)}</em>{J^{(z)}_i})$。</p>
+
+<ul>
+  <li><strong>不强分离</strong> $\Leftrightarrow$
+(i) 同号且同位；或
+(ii) 号相邻且位为 $(1,0)$ 或 $(0,1)$。</li>
+  <li>其余情形为<strong>强分离</strong>。类型 2 查询就是在 $[l,r]$ 内寻找首个使上述判定<strong>不成立</strong>的列。</li>
+</ul>]]></content><author><name></name></author><category term="出题" /><category term="/" /><summary type="html"><![CDATA[出一道有趣的题目]]></summary></entry><entry><title type="html">Toads</title><link href="/2025/08/15/Toads-Biology,-Chemistry,-Ecology,-and-Conservation-in-a-Changing-World/" rel="alternate" type="text/html" title="Toads" /><published>2025-08-15T00:00:00+08:00</published><updated>2025-08-15T00:00:00+08:00</updated><id>/2025/08/15/Toads%20%20Biology,%20Chemistry,%20Ecology,%20and%20Conservation%20in%20a%20Changing%20World</id><content type="html" xml:base="/2025/08/15/Toads-Biology,-Chemistry,-Ecology,-and-Conservation-in-a-Changing-World/"><![CDATA[<h1 id="toads-family-bufonidae-biology-chemistry-ecology-and-conservation-in-a-changing-world">Toads (Family <strong>Bufonidae</strong>): Biology, Chemistry, Ecology, and Conservation in a Changing World</h1>
+
+<p><strong>Date:</strong> August 15, 2025</p>
+
+<p><strong>Keywords:</strong> Bufonidae, toads, bufadienolides, parotoid glands, acoustic communication, chytridiomycosis, Batrachochytrium dendrobatidis, invasion biology, <em>Rhinella marina</em>, conservation, eDNA</p>
+
+<hr />
+
+<h2 id="abstract">Abstract</h2>
+
+<p>Toads (family <strong>Bufonidae</strong>) comprise a diverse clade of anuran amphibians found on every continent except Antarctica, with native absence from Australia (where the cane toad is introduced). Their characteristic warty skin and toxin-secreting parotoid glands have made them model organisms in chemical ecology and eco-evolutionary studies. Here I synthesize current knowledge on bufonid taxonomy, morphology and development (including Bidder’s organ), chemical defenses (bufadienolides and related compounds), life history, acoustic communication, population ecology, disease threats (notably chytridiomycosis), invasion dynamics (with a focus on the cane toad <em>Rhinella marina</em>), and conservation practice. I also highlight emerging tools—genomics and environmental DNA—that are reshaping research and management. The review closes with actionable priorities for science and conservation under rapid global change. (<a href="https://amphibiaweb.org/lists/Bufonidae.shtml?utm_source=chatgpt.com" title="Bufonidae">amphibiaweb.org</a>, <a href="https://amphibiansoftheworld.amnh.org/Amphibia/Anura/Bufonidae?utm_source=chatgpt.com" title="Bufonidae Gray, 1825 | Amphibian Species of the World">amphibiansoftheworld.amnh.org</a>)</p>
+
+<hr />
+
+<h2 id="1-introduction">1. Introduction</h2>
+
+<p>“True toads” are the anurans in the family <strong>Bufonidae</strong> (order Anura). Contemporary taxonomic compilations list <strong>~52 genera</strong> and <strong>~650–660 species</strong>, with updates continuing as new taxa are described. Distribution is nearly global—<strong>native</strong> on all continents except Australia and Antarctica, and <strong>introduced</strong> to Australia via the cane toad (<em>Rhinella marina</em>). (<a href="https://amphibiaweb.org/lists/Bufonidae.shtml?utm_source=chatgpt.com" title="Bufonidae">amphibiaweb.org</a>, <a href="https://amphibiansoftheworld.amnh.org/Amphibia/Anura/Bufonidae?utm_source=chatgpt.com" title="Bufonidae Gray, 1825 | Amphibian Species of the World">amphibiansoftheworld.amnh.org</a>)</p>
+
+<p><strong>Table 1.</strong> Snapshot of bufonid diversity (Aug 2025).</p>
+
+<ul>
+  <li>Genera: <strong>52</strong> (AmphibiaWeb list)</li>
+  <li>Species: <strong>~659</strong> (AMNH Amphibian Species of the World)</li>
+  <li>Global amphibian context: Anura now totals <strong>~7,864 species</strong> (AmphibiaWeb running count). (<a href="https://amphibiaweb.org/lists/Bufonidae.shtml?utm_source=chatgpt.com" title="Bufonidae">amphibiaweb.org</a>, <a href="https://amphibiansoftheworld.amnh.org/Amphibia/Anura/Bufonidae?utm_source=chatgpt.com" title="Bufonidae Gray, 1825 | Amphibian Species of the World">amphibiansoftheworld.amnh.org</a>)</li>
+</ul>
+
+<hr />
+
+<h2 id="2-taxonomy-and-systematics">2. Taxonomy and Systematics</h2>
+
+<p>Bufonidae likely originated in South America with subsequent rapid Eocene–Oligocene radiations; modern systematics recognizes well-known genera such as <em>Bufo</em>, <em>Anaxyrus</em>, <em>Rhinella</em>, <em>Atelopus</em>, <em>Bufotes</em>, <em>Incilius</em>, and others. Authoritative taxonomic backbones (AMNH <strong>Amphibian Species of the World</strong>) curate current combinations and newly erected genera. (<a href="https://amphibiansoftheworld.amnh.org/Amphibia/Anura/Bufonidae?utm_source=chatgpt.com" title="Bufonidae Gray, 1825 | Amphibian Species of the World">amphibiansoftheworld.amnh.org</a>)</p>
+
+<hr />
+
+<h2 id="3-morphology-development-and-bidders-organ">3. Morphology, Development, and Bidder’s Organ</h2>
+
+<p>Bufonids typically lack maxillary teeth, have warty skin, and bear a pair of enlarged <strong>parotoid glands</strong> posterior to the eyes. A distinctive developmental trait is <strong>Bidder’s organ</strong>—an ovary-like structure anterior to the gonad found in both sexes in most bufonids. Its function remains debated (from vestigial to steroidogenic roles), and it can develop into functional ovarian tissue under experimental conditions (e.g., following orchidectomy), making male bufonids “functional hermaphrodites” in the developmental sense. (<a href="https://ijdb.ehu.eus/article/140147rp?utm_source=chatgpt.com" title="Bidder's organ – structure, development and function">国际发育生物学杂志</a>, <a href="https://www.mdpi.com/2073-4425/12/4/578?utm_source=chatgpt.com" title="Testis Development and Differentiation in Amphibians">MDPI</a>, <a href="https://pubmed.ncbi.nlm.nih.gov/12475564/?utm_source=chatgpt.com" title="Bidder's organ of Bufo ictericus: a light and electron ...">PubMed</a>)</p>
+
+<hr />
+
+<h2 id="4-chemical-ecology-parotoid-glands-and-toxins">4. Chemical Ecology: Parotoid Glands and Toxins</h2>
+
+<h3 id="41-composition-and-biosynthesis">4.1 Composition and biosynthesis</h3>
+
+<p>Parotoid macroglands secrete complex mixtures dominated by <strong>bufadienolides</strong> (cardiotonic steroids), often accompanied by indolealkylamines and peptides. Recent analytical surveys across <em>Bufo</em> species identify dozens to &gt;100 distinct compounds per species, with substantial intra- and interspecific variation and environmentally driven plasticity. (<a href="https://www.sciencedirect.com/science/article/pii/S0041010120302257?utm_source=chatgpt.com" title="Chemical profile of the parotoid gland secretion ...">科学直通车</a>, <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10975026/?utm_source=chatgpt.com" title="Comprehensive Analysis of Bufadienolide and Protein ...">PMC</a>, <a href="https://www.nature.com/articles/s41598-019-39587-3?utm_source=chatgpt.com" title="Toads phenotypically adjust their chemical defences to ...">Nature</a>)</p>
+
+<h3 id="42-ecological-function">4.2 Ecological function</h3>
+
+<p>These secretions deter predators, shape predator–prey networks, and can mediate life-history trade-offs (e.g., costs of toxin synthesis vs. growth). Invasive cane toads’ high toxicity underpins many of their ecological impacts via <strong>lethal ingestion</strong> by naive predators in Australia. (<a href="https://www.journals.uchicago.edu/doi/10.1086/655116?utm_source=chatgpt.com" title="The Ecological Impact of Invasive Cane Toads (Bufo ...">芝加哥大学期刊</a>)</p>
+
+<h3 id="43-human-intersections">4.3 Human intersections</h3>
+
+<p>Toad venoms have long histories in traditional medicine; modern pharmacology revisits <strong>bufadienolides</strong> and <strong>tryptamines</strong> (e.g., 5-MeO-DMT from <em>Incilius alvarius</em>) both for bioactivity and for regulatory concerns. Crucially, cell-based methods now offer cruelty-free routes to 5-MeO-DMT, obviating wild toad exploitation. (<a href="https://onlinelibrary.wiley.com/doi/10.1002/ddr.22072?utm_source=chatgpt.com" title="Toad venom bufadienolides and bufotoxins: An updated ...">Wiley Online Library</a>, <a href="https://www.liebertpub.com/doi/abs/10.1089/psymed.2022.0001?utm_source=chatgpt.com" title="Incilius alvarius Cell-Based Synthesis of 5-Methoxy-N,N- ...">Liebert</a>)</p>
+
+<hr />
+
+<h2 id="5-life-history-and-reproduction">5. Life History and Reproduction</h2>
+
+<p>Most bufonids exhibit a biphasic life cycle: aquatic eggs (often in paired <strong>strings</strong>), tadpoles, and terrestrial or semi-terrestrial juveniles/adults. Reproductive strategies vary (explosive vs. prolonged breeders), with strong site fidelity to breeding ponds and seasonal migrations that expose populations to <strong>road mortality</strong>—a major, tractable conservation issue. (<a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC6714967/?utm_source=chatgpt.com" title="Effectiveness of small road tunnels and fences in reducing ...">PMC</a>, <a href="https://www.frontiersin.org/journals/ecology-and-evolution/articles/10.3389/fevo.2019.00023/full?utm_source=chatgpt.com" title="Effectiveness of Road Mitigation for Common Toads (Bufo ...">Frontiers</a>)</p>
+
+<hr />
+
+<h2 id="6-behavior-and-acoustic-communication">6. Behavior and Acoustic Communication</h2>
+
+<p>Anuran social behavior is dominated by <strong>acoustic signaling</strong>. In bufonids, advertisement calls drive mate attraction and male–male interactions; selection can be stabilizing or directional on call parameters, and hormonal state modulates auditory processing. Neuroethological work across anurans provides a framework for how the toad brain parses complex acoustic cues in noisy environments. (<a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC3010340/?utm_source=chatgpt.com" title="The Behavioral Neuroscience of Anuran Social Signal ...">PMC</a>, <a href="https://www.sciencedirect.com/science/article/pii/S0003347298907849?utm_source=chatgpt.com" title="Stabilizing and directional female choice for male calls in ...">科学直通车</a>)</p>
+
+<hr />
+
+<h2 id="7-population-ecology-and-habitat-use">7. Population Ecology and Habitat Use</h2>
+
+<p>Toads occupy forests, grasslands, agricultural mosaics, and urban greenspaces. Many species remain near breeding wetlands; others disperse widely. Anthropogenic fragmentation (roads, culverts, drainage) alters movement and demography. Evaluations from Europe show that <strong>fences + under-road tunnels</strong> reduce roadkill and restore site connectivity for <em>Bufo bufo</em> and other amphibians. (<a href="https://www.frontiersin.org/journals/ecology-and-evolution/articles/10.3389/fevo.2019.00023/full?utm_source=chatgpt.com" title="Effectiveness of Road Mitigation for Common Toads (Bufo ...">Frontiers</a>, <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC6714967/?utm_source=chatgpt.com" title="Effectiveness of small road tunnels and fences in reducing ...">PMC</a>, <a href="https://conservationevidence.com/intervention/view/884?utm_source=chatgpt.com" title="Install culverts or tunnels as road crossings">conservationevidence.com</a>)</p>
+
+<hr />
+
+<h2 id="8-disease-ecology-chytridiomycosis">8. Disease Ecology: Chytridiomycosis</h2>
+
+<p>The fungal pathogen <strong>Batrachochytrium dendrobatidis (Bd)</strong> has driven severe amphibian declines, with a global assessment attributing declines to <strong>≥500 species</strong>, including <strong>~90 extinctions</strong>. Effects on bufonids vary by species and region, but Bd remains a pervasive risk superimposed on habitat loss and climate stress. Ongoing syntheses emphasize lineage diversity within Bd and context-dependent host outcomes. (<a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC9302726/?utm_source=chatgpt.com" title="Biodiversity is decimated by the cascading effects ...">PMC</a>, <a href="https://www.frontiersin.org/journals/conservation-science/articles/10.3389/fcosc.2023.1069490/full?utm_source=chatgpt.com" title="Continent-wide recent emergence of a global pathogen in ...">Frontiers</a>)</p>
+
+<hr />
+
+<h2 id="9-genomics-and-evolutionary-insights">9. Genomics and Evolutionary Insights</h2>
+
+<p>High-quality reference genomes now exist for major bufonids. The <strong>common toad (<em>Bufo bufo</em>) genome</strong> (~5.0 Gb; 11 chromosomal pseudomolecules) provides a platform for population genomics, toxin gene clusters, and sex-determination studies; additional chromosomal assemblies (e.g., <em>Bufotes</em> lineages) are emerging. (<a href="https://wellcomeopenresearch.org/articles/6-281?utm_source=chatgpt.com" title="The genome sequence of the common toad">wellcomeopenresearch.org</a>, <a href="https://www.ncbi.nlm.nih.gov/datasets/genome/GCF_905171765.1/?utm_source=chatgpt.com" title="Bufo bufo genome assembly aBufBuf1.1">国家生物技术信息中心</a>, <a href="https://academic.oup.com/g3journal/article/15/3/jkaf002/8024180?utm_source=chatgpt.com" title="chromosome-level genome assembly of the European green ...">牛津大学出版社学术期刊</a>)</p>
+
+<hr />
+
+<h2 id="10-invasion-biology-the-cane-toad-rhinella-marina">10. Invasion Biology: The Cane Toad (<em>Rhinella marina</em>)</h2>
+
+<h3 id="101-historical-spread-and-mechanisms-of-impact">10.1 Historical spread and mechanisms of impact</h3>
+
+<p>Introduced to Australia in 1935, cane toads have spread widely. The <strong>primary impact mechanism</strong> is poisoning of predators (quolls, varanid lizards, elapid snakes) that attempt to ingest toads; secondary effects cascade through food webs and can disrupt ecosystem services. (<a href="https://www.journals.uchicago.edu/doi/10.1086/655116?utm_source=chatgpt.com" title="The Ecological Impact of Invasive Cane Toads (Bufo ...">芝加哥大学期刊</a>, <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC4588653/?utm_source=chatgpt.com" title="The impact of invasive cane toads on native wildlife in ...">PMC</a>, <a href="https://esajournals.onlinelibrary.wiley.com/doi/10.1002/ecs2.3488?utm_source=chatgpt.com" title="A biological invasion impacts ecosystem services: cane toads ...">esajournals.onlinelibrary.wiley.com</a>)</p>
+
+<h3 id="102-management-lessons">10.2 Management lessons</h3>
+
+<p>Systematic reviews suggest that <strong>hand-collecting adults</strong> rarely scales to population control, whereas integrated approaches—barriers, targeted removal of breeding cohorts, conditioning of predators, and landscape-scale exclusion—show more promise when matched to local demography. A recent synthesis catalogs “new weapons” in the management toolkit. (<a href="https://www.sciencedirect.com/science/article/pii/S2351989420304248?utm_source=chatgpt.com" title="Pest control by the public: Impact of hand-collecting on ...">科学直通车</a>, <a href="https://academic.oup.com/evolut/article/77/8/1744/7190198?utm_source=chatgpt.com" title="perspectives from the cane toad invasion of Australia | Evolution">牛津大学出版社学术期刊</a>)</p>
+
+<hr />
+
+<h2 id="11-methods-box-studying-and-monitoring-toads">11. Methods Box: Studying and Monitoring Toads</h2>
+
+<ul>
+  <li><strong>Mark–recapture &amp; PIT tagging:</strong> Demography, survival, site fidelity.</li>
+  <li><strong>Bioacoustics:</strong> Passive recorders quantify calling phenology and abundance.</li>
+  <li><strong>Environmental DNA (eDNA):</strong> Water samples detect presence, community composition, and (with caveats) coarse abundance indices—useful for cryptic or low-density populations. (<a href="https://www.sciencedirect.com/science/article/pii/S2666765723000303?utm_source=chatgpt.com" title="Applications of environmental DNA (eDNA) to detect ...">科学直通车</a>, <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10348306/?utm_source=chatgpt.com" title="Environmental DNA and visual encounter surveys for ...">PMC</a>, <a href="https://onlinelibrary.wiley.com/doi/abs/10.1002/edn3.332?utm_source=chatgpt.com" title="Testing the effectiveness of environmental DNA (eDNA) to ...">Wiley Online Library</a>)</li>
+  <li><strong>Road ecology instrumentation:</strong> Migration counts, thermal cameras, and <strong>amphibian tunnels/fences</strong> assess and mitigate road mortality. (<a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC6714967/?utm_source=chatgpt.com" title="Effectiveness of small road tunnels and fences in reducing ...">PMC</a>, <a href="https://www.frontiersin.org/journals/ecology-and-evolution/articles/10.3389/fevo.2019.00023/full?utm_source=chatgpt.com" title="Effectiveness of Road Mitigation for Common Toads (Bufo ...">Frontiers</a>)</li>
+</ul>
+
+<hr />
+
+<h2 id="12-case-studies">12. Case Studies</h2>
+
+<h3 id="121-common-toad-bufo-bufo-in-europe">12.1 Common toad (<em>Bufo bufo</em>) in Europe</h3>
+
+<p>Widespread and assessed as <strong>Least Concern</strong> overall, yet local declines link to road mortality, pond loss, and disease. Mitigation—seasonal road closures, volunteer “toad patrols,” and permanent tunnel systems—has demonstrated dramatic reductions in casualties and restoration of connectivity. (<a href="https://iucn.org/sites/default/files/import/downloads/common_toad_fact_sheet.pdf?utm_source=chatgpt.com" title="EUROPEAN RED LIST OF AMPHIBIANS - Common Toad ...">国际自然保护联盟</a>, <a href="https://www.theguardian.com/environment/2025/apr/11/toads-migration-charlcombe-somerset-closed-roads-conservation?utm_source=chatgpt.com" title="Toads risk their lives crossing a Somerset road to mate. This year, a patrol rescued thousands">卫报</a>, <a href="https://www.frontiersin.org/journals/ecology-and-evolution/articles/10.3389/fevo.2019.00023/full?utm_source=chatgpt.com" title="Effectiveness of Road Mitigation for Common Toads (Bufo ...">Frontiers</a>)</p>
+
+<h3 id="122-harlequin-toads-atelopus-spp-and-disease">12.2 Harlequin toads (<em>Atelopus</em> spp.) and disease</h3>
+
+<p>Within Bufonidae, <em>Atelopus</em> exemplifies high disease sensitivity; many species have collapsed or vanished coincident with Bd emergence, underscoring clade-level heterogeneity in susceptibility. (<a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC9302726/?utm_source=chatgpt.com" title="Biodiversity is decimated by the cascading effects ...">PMC</a>)</p>
+
+<hr />
+
+<h2 id="13-conservation-threats-and-actions">13. Conservation Threats and Actions</h2>
+
+<p><strong>Major threats:</strong> habitat loss and fragmentation, <strong>road mortality</strong>, pollution (e.g., pesticides), climate change (hydroperiod alteration), disease (Bd), invasive species (both predators and prey), and overexploitation (pet trade; harvest for traditional medicine). <strong>Priority actions:</strong> protect/restore wetlands, design <strong>road-crossing infrastructure</strong> at migration bottlenecks, biosecurity to limit pathogen spread, disease surveillance, and targeted invasive-species management. (<a href="https://www.frontiersin.org/journals/ecology-and-evolution/articles/10.3389/fevo.2019.00023/full?utm_source=chatgpt.com" title="Effectiveness of Road Mitigation for Common Toads (Bufo ...">Frontiers</a>, <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC6714967/?utm_source=chatgpt.com" title="Effectiveness of small road tunnels and fences in reducing ...">PMC</a>, <a href="https://www.iucn-amphibians.org/wp-content/uploads/sites/4/2023/10/SOTWA-final-10.4.23.pdf?utm_source=chatgpt.com" title="State of the World's Amphibians:">iucn-amphibians.org</a>)</p>
+
+<hr />
+
+<h2 id="14-future-directions">14. Future Directions</h2>
+
+<ol>
+  <li><strong>Linking chemistry to genes:</strong> Resolve biosynthetic pathways of bufadienolides and indolealkylamines using comparative genomics, transcriptomics of parotoid tissue, and CRISPR perturbations in cell culture. (<a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10975026/?utm_source=chatgpt.com" title="Comprehensive Analysis of Bufadienolide and Protein ...">PMC</a>)</li>
+  <li><strong>Predictive eco-epidemiology:</strong> Integrate Bd lineage genomics, host immunity, and microclimate to forecast outbreak risk and triage populations. (<a href="https://www.frontiersin.org/journals/conservation-science/articles/10.3389/fcosc.2023.1069490/full?utm_source=chatgpt.com" title="Continent-wide recent emergence of a global pathogen in ...">Frontiers</a>)</li>
+  <li><strong>Ethical pharmacology:</strong> Replace wild harvest with <strong>cell-based</strong> toxin production; standardize chemistry and dosing for any clinical research on toad-derived compounds. (<a href="https://www.liebertpub.com/doi/abs/10.1089/psymed.2022.0001?utm_source=chatgpt.com" title="Incilius alvarius Cell-Based Synthesis of 5-Methoxy-N,N- ...">Liebert</a>)</li>
+  <li><strong>Scalable monitoring:</strong> Fuse <strong>eDNA</strong> with automated acoustics and remote sensing to produce near-real-time occupancy maps at landscape scales. (<a href="https://www.sciencedirect.com/science/article/pii/S2666765723000303?utm_source=chatgpt.com" title="Applications of environmental DNA (eDNA) to detect ...">科学直通车</a>)</li>
+</ol>
+
+<hr />
+
+<h2 id="15-conclusion">15. Conclusion</h2>
+
+<p>Bufonid toads anchor classic and emerging research programs spanning development, neuroethology, chemical ecology, disease dynamics, and global change biology. Their distinctive toxins, robust calls, and dramatic migrations make them both scientifically tractable and conservation-relevant. With accelerating tools—genomes, eDNA, and engineered mitigation—science can deliver precise, ethical, and scalable solutions to secure toad populations in human-dominated landscapes. (<a href="https://wellcomeopenresearch.org/articles/6-281?utm_source=chatgpt.com" title="The genome sequence of the common toad">wellcomeopenresearch.org</a>, <a href="https://www.sciencedirect.com/science/article/pii/S2666765723000303?utm_source=chatgpt.com" title="Applications of environmental DNA (eDNA) to detect ...">科学直通车</a>, <a href="https://www.frontiersin.org/journals/ecology-and-evolution/articles/10.3389/fevo.2019.00023/full?utm_source=chatgpt.com" title="Effectiveness of Road Mitigation for Common Toads (Bufo ...">Frontiers</a>)</p>
+
+<hr />
+
+<h2 id="references-selected">References (selected)</h2>
+
+<ul>
+  <li>AmphibiaWeb. <strong>Bufonidae</strong> list &amp; diversity summaries. (<a href="https://amphibiaweb.org/lists/Bufonidae.shtml?utm_source=chatgpt.com" title="Bufonidae">amphibiaweb.org</a>)</li>
+  <li>AMNH. <strong>Amphibian Species of the World</strong>: Bufonidae (species/genera totals). (<a href="https://amphibiansoftheworld.amnh.org/Amphibia/Anura/Bufonidae?utm_source=chatgpt.com" title="Bufonidae Gray, 1825 | Amphibian Species of the World">amphibiansoftheworld.amnh.org</a>)</li>
+  <li>Piprek RP, et al. (2014–2015). <strong>Bidder’s organ—Structure, development and function.</strong> <em>Int. J. Dev. Biol.</em> (<a href="https://ijdb.ehu.eus/article/140147rp?utm_source=chatgpt.com" title="Bidder's organ – structure, development and function">国际发育生物学杂志</a>, <a href="https://core.ac.uk/download/pdf/208285533.pdf?utm_source=chatgpt.com" title="Bidder's organ – structure, development and function">Core</a>)</li>
+  <li>Sinhorin AP, et al. (2020). <strong>Chemical profile of parotoid secretion</strong> (bufadienolides). <em>Toxicon.</em> (<a href="https://www.sciencedirect.com/science/article/pii/S0041010120302257?utm_source=chatgpt.com" title="Chemical profile of the parotoid gland secretion ...">科学直通车</a>)</li>
+  <li>Fang Y, et al. (2024). <strong>Comprehensive analysis of bufadienolides &amp; proteins</strong> across <em>Bufo</em> spp. <em>Front. Pharmacol.</em> (<a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10975026/?utm_source=chatgpt.com" title="Comprehensive Analysis of Bufadienolide and Protein ...">PMC</a>)</li>
+  <li>Bókony V, et al. (2019). <strong>Phenotypic adjustment of chemical defenses</strong> in <em>Bufo bufo</em>. <em>Sci. Rep.</em> (<a href="https://www.nature.com/articles/s41598-019-39587-3?utm_source=chatgpt.com" title="Toads phenotypically adjust their chemical defences to ...">Nature</a>)</li>
+  <li>Zipkin EF, et al. (2022). <strong>Chytridiomycosis &amp; biodiversity cascades.</strong> <em>PNAS Nexus.</em> (<a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC9302726/?utm_source=chatgpt.com" title="Biodiversity is decimated by the cascading effects ...">PMC</a>)</li>
+  <li>Li Z, et al. (2021). <strong>Global meta-analysis of chytridiomycosis.</strong> <em>Front. Vet. Sci.</em> (<a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC8718539/?utm_source=chatgpt.com" title="A Global Systematic Review and Meta-Analysis">PMC</a>)</li>
+  <li>Ghose SL, et al. (2023). <strong>Recent emergence of Bd lineages.</strong> <em>Front. Conserv. Sci.</em> (<a href="https://www.frontiersin.org/journals/conservation-science/articles/10.3389/fcosc.2023.1069490/full?utm_source=chatgpt.com" title="Continent-wide recent emergence of a global pathogen in ...">Frontiers</a>)</li>
+  <li>Shine R (2010–2023). <strong>Cane toad impacts &amp; management</strong>; lethal ingestion as principal pathway; new mitigation tools. <em>Am. Nat.</em>; <em>Evolution</em>. (<a href="https://www.journals.uchicago.edu/doi/10.1086/655116?utm_source=chatgpt.com" title="The Ecological Impact of Invasive Cane Toads (Bufo ...">芝加哥大学期刊</a>, <a href="https://academic.oup.com/evolut/article/77/8/1744/7190198?utm_source=chatgpt.com" title="perspectives from the cane toad invasion of Australia | Evolution">牛津大学出版社学术期刊</a>)</li>
+  <li>Jolly CJ, et al. (2015). <strong>Impacts of cane toads on predators.</strong> <em>Wildlife Research.</em> (<a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC4588653/?utm_source=chatgpt.com" title="The impact of invasive cane toads on native wildlife in ...">PMC</a>)</li>
+  <li>Pettit L, et al. (2021). <strong>Ecosystem service disruption by cane toads.</strong> <em>Ecosphere.</em> (<a href="https://esajournals.onlinelibrary.wiley.com/doi/10.1002/ecs2.3488?utm_source=chatgpt.com" title="A biological invasion impacts ecosystem services: cane toads ...">esajournals.onlinelibrary.wiley.com</a>)</li>
+  <li>Ottburg FGWA, et al. (2019); Helldin JO, et al. (2019). <strong>Effectiveness of tunnels/fences</strong> for <em>Bufo bufo</em>. <em>Front. Ecol. Evol.</em>; <em>PeerJ.</em> (<a href="https://www.frontiersin.org/journals/ecology-and-evolution/articles/10.3389/fevo.2019.00023/full?utm_source=chatgpt.com" title="Effectiveness of Road Mitigation for Common Toads (Bufo ...">Frontiers</a>, <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC6714967/?utm_source=chatgpt.com" title="Effectiveness of small road tunnels and fences in reducing ...">PMC</a>)</li>
+  <li>Rishan ST, et al. (2023); Quilumbaquin W, et al. (2023); Breton BAA, et al. (2022). <strong>eDNA for amphibians.</strong> <em>Curr. Opin. Environ. Sci. Health</em>; <em>PeerJ</em>; <em>Environmental DNA.</em> (<a href="https://www.sciencedirect.com/science/article/pii/S2666765723000303?utm_source=chatgpt.com" title="Applications of environmental DNA (eDNA) to detect ...">科学直通车</a>, <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10348306/?utm_source=chatgpt.com" title="Environmental DNA and visual encounter surveys for ...">PMC</a>, <a href="https://onlinelibrary.wiley.com/doi/abs/10.1002/edn3.332?utm_source=chatgpt.com" title="Testing the effectiveness of environmental DNA (eDNA) to ...">Wiley Online Library</a>)</li>
+  <li>Streicher JW, et al. (2021). <strong>Genome sequence of <em>Bufo bufo</em></strong> (5.04 Gb; 11 chromosomes). <em>Wellcome Open Research</em>; NCBI RefSeq. (<a href="https://wellcomeopenresearch.org/articles/6-281?utm_source=chatgpt.com" title="The genome sequence of the common toad">wellcomeopenresearch.org</a>, <a href="https://www.ncbi.nlm.nih.gov/datasets/genome/GCF_905171765.1/?utm_source=chatgpt.com" title="Bufo bufo genome assembly aBufBuf1.1">国家生物技术信息中心</a>)</li>
+  <li>IUCN/European Red List. <strong>Common toad (<em>Bufo bufo</em>)</strong> factsheet; status and threats. (<a href="https://iucn.org/sites/default/files/import/downloads/common_toad_fact_sheet.pdf?utm_source=chatgpt.com" title="EUROPEAN RED LIST OF AMPHIBIANS - Common Toad ...">国际自然保护联盟</a>)</li>
+</ul>
+
+<hr />
+
+<h2 id="appendix-a-ethical-note-on-psychoactive-toad-secretions">Appendix A. Ethical note on psychoactive toad secretions</h2>
+
+<p>There is growing public interest in parotoid-derived 5-MeO-DMT. From a conservation and animal-welfare perspective, <strong>harvesting wild toads is unnecessary and harmful</strong>; synthetic chemistry and <strong>cell-based biosynthesis</strong> provide non-wild alternatives that should be preferred in any research setting, subject to local law and clinical ethics. (<a href="https://pubs.acs.org/doi/10.1021/acsomega.0c05099?utm_source=chatgpt.com" title="Synthesis and Characterization of 5-MeO-DMT Succinate for ...">美国化学学会出版物</a>, <a href="https://www.liebertpub.com/doi/abs/10.1089/psymed.2022.0001?utm_source=chatgpt.com" title="Incilius alvarius Cell-Based Synthesis of 5-Methoxy-N,N- ...">Liebert</a>)</p>
+
+<hr />
+
+<p><em>End of manuscript.</em></p>]]></content><author><name></name></author><category term="Toad" /><category term="Toad" /><summary type="html"><![CDATA[Toads (Family Bufonidae): Biology, Chemistry, Ecology, and Conservation in a Changing World]]></summary></entry><entry><title type="html">你好，世界（含 LaTeX 示例）</title><link href="/2025/08/15/hello-world/" rel="alternate" type="text/html" title="你好，世界（含 LaTeX 示例）" /><published>2025-08-15T00:00:00+08:00</published><updated>2025-08-15T00:00:00+08:00</updated><id>/2025/08/15/hello-world</id><content type="html" xml:base="/2025/08/15/hello-world/"><![CDATA[<p>欢迎来到我的新博客！下面是一些演示：</p>
+
+<h2 id="markdown-基础">Markdown 基础</h2>
+<ul>
+  <li><strong>粗体</strong>、<em>斜体</em>、<code>行内代码</code></li>
+  <li>代码块：
+    <pre><code class="language-python">def hello():
+  return "Hello, world!"
+</code></pre>
+  </li>
+</ul>
+
+<h2 id="latex-示例">LaTeX 示例</h2>
+<p>行内：爱因斯坦的质能关系 $E = mc^2$。</p>
+
+<p>行间：
+\(I = \int_0^1 x^2\,dx = \frac13\)</p>]]></content><author><name></name></author><category term="示例" /><category term="latex" /><category term="markdown" /><category term="jekyll" /><summary type="html"><![CDATA[欢迎来到我的新博客！下面是一些演示：]]></summary></entry><entry><title type="html">猜数字最佳解法</title><link href="/2025/08/15/%E7%8C%9C%E6%95%B0%E5%AD%97%E6%9C%80%E4%BD%B3%E8%A7%A3%E6%B3%95/" rel="alternate" type="text/html" title="猜数字最佳解法" /><published>2025-08-15T00:00:00+08:00</published><updated>2025-08-15T00:00:00+08:00</updated><id>/2025/08/15/%E7%8C%9C%E6%95%B0%E5%AD%97%E6%9C%80%E4%BD%B3%E8%A7%A3%E6%B3%95</id><content type="html" xml:base="/2025/08/15/%E7%8C%9C%E6%95%B0%E5%AD%97%E6%9C%80%E4%BD%B3%E8%A7%A3%E6%B3%95/"><![CDATA[# 一份“猜数字”求解器（Tanaka）
+
+
+
+---
+
+## TL;DR
+
+1. 这个程序解决的是 4 位 **Bulls & Cows** 的最优/近优决策树搜索问题：每次猜一个 4 位不重复的“数字组合”，根据反馈）切分候选集。
+2. 代码用**位运算**把一个 4 位数打包成 `Q2`（高 16 位是 10 个数字是否出现的 bitmask，低 16 位是 4 个 nibble 表示的四位数字），配合两张小表 `ht[]/bt[]`，可以 **O(1)** 地求某次猜测与某个候选之间的 H/B 反馈类别。
+3. 搜索部分通过：预估下界 `imn()`、分支估价 `cnt()`、**小顶堆**优先扩展、**对称性消解**（`cp()`/`sp()`）与**节点池**（`QB` 池化），实现**强力剪枝**。
+
+---
+
+## 问题设定与两种模式
+
+* 编译开关：
+
+  * `#ifdef MASTER` 时，`TS = 1296`：典型 Mastermind。
+  * 否则 `TS = 5040`：10 个数字中选 4 个、顺序有关且不重复（`10A4 = 5040`）。
+    代码走 **数字模式（5040）**。
+
+* 反馈类别（共 `SLS = 14` 种），在数组 `cs[]` 里按索引给出字符串：
+
+  ```
+  0:"4H", 1:"2H2B", 2:"1H3B", 3:"0H4B",
+  4:"3H0B", 5:"2H1B", 6:"2H0B", 7:"1H2B", 8:"0H3B",
+  9:"0H0B", 10:"1H0B", 11:"1H1B", 12:"0H2B", 13:"0H1B"
+  ```
+
+---
+
+## 核心数据表示（位运算友好）
+
+* `Q`/`Q2`：
+
+  * 低 16 位：四个 nibble（每 4 bit）依次放 4 位数字（从高到低 nibble 对应千百十个位置）。
+  * 高 16 位：10-bit 的“用过数字”掩码（第 d 位为 1 意味着数字 d 出现过）。
+  * 组合构造样例在 `initnt2()`：
+
+    ```c
+    nt2[index] = (((1<<i)|(1<<jj)|(1<<kk)|(1<<ll))<<16) | (i<<12)|(jj<<8)|(kk<<4)|ll;
+    ```
+* 宏 `COL(q,i)`：抽出第 i 位（0..3）的 nibble。
+* 小表：
+
+  * `ht[0x10000]`：给定 `x = (q1 ^ q2) & 0xffff`，统计其中 **四个 nibble 为 0** 的个数。
+  * `bt[1024]`：给定 10-bit 掩码，返回其中 1 的个数（用于算“共有数字”）。
+* 反馈映射 `hb(q1,q2)`：
+
+  ```c
+  hit  = ht[(q1 ^ q2) & 0xffff];
+  blow = bt[(q1 & q2) >> 16];     // 注意是共有数字（含 hit）
+  return cv2[hit][blow];          // 变成 0..13 的类别索引
+  ```
+
+---
+
+## 候选全集与首/二步策略
+
+* `TS` 个候选全部装在 `nt2[]` 中（`initnt2()` 生成所有排列）。
+* 程序默认**第一步固定猜 `fd = 0xf0123`**（编码即“0123”）。
+* 第二步有一个经验/策略表 `sd[SIZEOF_SECOND]`（19 个备选），`cmp2()` 专门在第二层使用它做更快的分支搜索。
+
+---
+
+## 估价与剪枝
+
+### 1）理论下界估计：`imn()` + `limit_table`
+
+* `limit_table[11][3]` 是手工给的阈值表，结合“当前分支剩余候选数 `num`”与“该分支内累计出现过多少不同数字 `n_exist`（0..10）”，估计在 2/3/4/5 层能的规模，形成一个**下界**（lower bound）。
+* `imn(n_exist, num)` 返回该分支最少还需“评分项”的下界（用于 A\* 式剪枝）。
+
+### 2）对一个猜测的分支估价：`cnt()`
+
+* 给定当前候选数组 `ptr`（长度 `len`）与“准备试探的猜测 `src`”，遍历计算 14 个反馈类别下的规模：
+
+  * `dest[i]`：类别 `i` 下的子树大小。
+  * `exist[i]`：该子树里**所有候选数字位掩码的 OR**，随后 `bt[exist[i]>>16]` 给出 `n_exist`。
+  * 每个非空类别 `i` 的“下界”是 `mi[n_exist][sel_len]`，这里 `mi` 由上面的 `imn()` 预先填好。
+* 汇总并加上一些细节（比如 `dest[0]` 表示 4H 的“命中立即结束”），得到此猜测的**估价值**。如果所有候选都被分到一个类别（`nonzeros<=1`），返回 `INFINITY`，这种猜法**直接丢弃**。
+
+### 3）分支扩展顺序：`mkhp()/dnhp()` 小顶堆
+
+* 把本层所有可用猜法的估价值放进**小顶堆**，总是\*\*先扩展“估价最小（最有希望）”\*\*的猜法，能有效减少深入无谓分支。
+
+### 4）对称性：`cp()` / `sp()` / `cu()`
+
+* **核心思想**：给定一套“数字→新编号”的置换和（或）“位置”置换，如果能把一个猜法映射到更小的“字典序”，那我们只保留**最小代表**，丢掉其它对称等价的猜法。
+* `cp()`：检查某个 `q` 在当前允许的置换族下，是否已经是最小代表（否则不必考虑）。
+* `sp()`：根据当前选择，**收紧可用置换**（相当于把“等价类”继续细化），并把 `p4/p10` 两张置换表推进到下一层。
+* `cu()`：用于约束“未使用数字”的相对顺序，进一步减少重复。
+
+### 5）真正的搜索：`cmp()` / `cmp2()`
+
+* **输入**：当前候选 `ptr/len`，层数 `level`，置换信息、已用数字掩码、当前“最好上界 `minval`”等。
+* **流程**：
+
+  1. 计算这一层所有可用猜法（受对称性约束），对每个猜法先调用 `cnt()` 得到估价，**装堆**。
+  2. 按堆序从优到劣依次试：
+
+     * 基于 `check[level-1][sort_i]` 的 14 把分布，把候选分发到子数组 `to_child[...]`。
+     * 只对非空子类递归 `cmp()`，把每个子类的最坏值取 `max`。
+     * 若当前 `tmpval >= minval` 就**剪枝**。
+  3. 返回该猜法的“最坏代价”，同时在 `QB` 上**建出决策树**（见下）。
+* `cmp2()` 是为“第二步”定制的快速版：把全体猜法替换为 `sd[]` 那 19 个候选，附带一个 `second_check` 缓存。
+
+---
+
+## 决策树与内存管理
+
+* 结构体 `QB` 是一个 14（=SLS）分叉的**节点**：
+
+  ```c
+  typedef struct qbox{
+    Q2 query;          // 这一层出的“问句”（猜法）
+    struct qbox*ptr[SLS]; // 14 个反馈类别下的子指针
+  } QB;
+  ```
+* 采用**对象池**（`qbs[QS]` + `aqb()/fqb()`）做内存管理，避免频繁 `malloc/free`。
+* `dqb()` 会把整棵树**漂亮地打印**出来（使用 `cs[]` 的标签作为分支名），这是你程序跑完后的“可读产物”。
+
+---
+
+## `main()` 
+
+1. 读取命令行参数 `sel`（0..13），表示**第一步固定猜 `fd=0123` 后**得到的那一类反馈（比如 `9` 代表 `"0H0B"`）。
+2. 预处理 / 初始化：`initt()` 会：
+
+   * `initp()`：准备置换（`p4/p10`）。
+   * `initnt2()`：生成 `nt2[]` 全候选；`ht[]/bt[]` 两张辅助小表也在这里建好。
+   * 预填 `mi[n_exist][num] = imn(n_exist,num)` 表。
+   * 初始化 `QB` 对象池。
+3. 用 `fd` 把 5040 个候选切成 14 份，选择 `sel` 对应那一份进入 `cmp2()` 搜索。
+4. 通过 `dqb()` 在 `stdout` 打印整棵决策树，并在 `stderr` 打印统计信息（`c_compute/c_long_compute/c_tablelen/c_selectlen` 等）。
+
+
+---
+
+## 运行与参数（给未来的自己留个备忘）
+
+* 编译（数字模式，`TS=5040`）：
+
+  ```bash
+  g++ -O3 -std=c++11 main.cpp -o solver
+  ```
+
+  或者（Mastermind 模式，`TS=1296`）：
+
+  ```bash
+  g++ -O3 -std=c++11 -DMASTER main.cpp -o solver
+  ```
+
+* 运行
+
+  ```bash
+  ./solver 9
+  ```
+
+  这会在标准输出打印整棵决策树（用 14 条边标签  ），在标准错误打印搜索统计。
+
+* `sel` 与标签对照（来自 `cs[]`）：
+
+| sel | 反馈   | sel | 反馈   | sel | 反馈   | sel | 反馈   |
+| --: | :--- | --: | :--- | --: | :--- | --: | :--- |
+|   0 | 4H   |   1 | 2H2B |   2 | 1H3B |   3 | 0H4B |
+|   4 | 3H0B |   5 | 2H1B |   6 | 2H0B |   7 | 1H2B |
+|   8 | 0H3B |   9 | 0H0B |  10 | 1H0B |  11 | 1H1B |
+|  12 | 0H2B |  13 | 0H1B |     |      |     |      |
+
+---
+
+## 一些巧妙点
+
+* **`ht[]`/`bt[]` 两张 1KB/64KB 小表**：挤成 O(1) 的查表，非常划算。
+* **合并编码 `Q2`**：上半是集合掩码，下半是数字序列。
+* **对称性剪枝**：`cp()`/`sp()`/`cu()` + `p4/p10`，大幅减少等价猜法，搜索速度的关键。
+* **`imn()` 的分段下界**：配合 `cnt()` 的“子类估价”。
+* **对象池 `QB`**：树大时避免堆分配碎片和系统调用开销。
+
+---
+
+## 完整源码（
+
+```cpp
+#include <stdio.h>
+#include <ctype.h>
+#include <stdlib.h>
+int  imn(int n_exist,int num);
+void sbo(short a[],short index[],int nel);
+#define FAST
+#ifdef FAST
+typedef unsigned short Q;
+#define COL(q,i) ((q>>(12-4*i))&15)
+#else
+typedef struct{
+	char col[4];
+} Q;
+#define COL(q,i) (q.col[i])
+#endif
+
+typedef struct qhash{
+	Q*q;
+	struct qhash*next;
+} QuestionHash;
+
+#ifdef MASTER
+#define TS 1296
+#else
+#define TS 5040
+#define SIZEOF_SECOND 19
+#define SLS 14
+#endif
+
+#define INFINITY 30000
+#define ML 15
+#define QS 30000
+
+typedef int Q2;
+Q2 nt2[TS];
+char ht[0x10000];
+char bt[1024];
+
+int cv2[5][8]={
+	{9,13,12,8,3,-1,-1,-1},
+	{-1,10,11,7,2,-1,-1,-1},
+	{-1,-1,6,5,1,-1,-1,-1},
+	{-1,-1,-1,4,-1,-1,-1,-1},
+	{-1,-1,-1,-1,0,-1,-1,-1}
+};
+int cr[14]={9,13,12,8,3,10,11,7,2,6,5,1,4,0};
+
+char*cs[14]={
+	"4H","2H2B","1H3B","0H4B",
+	"3H0B","2H1B","2H0B","1H2B","0H3B",
+	"0H0B","1H0B","1H1B","0H2B","0H1B"
+};
+int c_compute;
+int c_long_compute;
+int c_tablelen;
+int c_selectlen;
+
+Q2 fd=0xf0123;
+Q2 sd[SIZEOF_SECOND]={
+	0x170124,0x0f0132,0x1b0134,0x330145,
+	0x170214,0x0f0231,0x1d0234,0x350245,
+	0x710456,0x0f1032,0x1b1034,0x331045,
+	0x171204,0x0f1230,0x1e1234,0x361245,
+	0x3a1435,0x721456,0xf04567
+};
+
+short check[ML][TS][SLS];
+short p4[ML][24][4];
+short p10[ML][24][10];
+
+int mi[11][TS];
+typedef struct qbox{
+	Q2 query;
+	struct qbox*ptr[SLS];
+} QB;
+QB qbs[QS];
+QB*qbt;
+
+int maxlevel;
+
+void initp(){
+	int used[4];
+	int j,k,l,m,rest,nth;
+	for(j=0;j<24;j++){
+		for(k=0;k<4;k++)
+			used[k]=0;
+		for(rest=j,k=4;k>0;k--){
+			nth=rest%k;
+			for(l=m=0;l<4;l++){
+				if(!used[l]&&m++==nth)
+					break;
+			}
+			used[l]=1;
+			p4[1][j][4-k]=l;
+			p10[1][j][l]=4-k;
+			rest=rest/k;
+		}
+		for(k=4;k<10;k++)
+			p10[2][j][k]=-1;
+	}
+}
+
+void initnt2(){
+	int i,j,k,l,jj,kk,ll,index,r;
+	for(i=0;i<10;i++)
+		for(jj=j=0;j<9;j++,jj++){
+			if(jj==i){
+				j--;
+			} else{
+				for(kk=k=0;k<8;k++,kk++){
+					if(kk==jj||kk==i){
+						k--;
+					} else{
+						for(ll=l=0;l<7;l++,ll++){
+							if(ll==kk||ll==jj||ll==i){
+								l--;
+							} else{
+								index=l+7*(k+8*(j+9*i));
+								nt2[index]=(((1<<i)|(1<<jj)|(1<<kk)|(1<<ll))<<16)|
+								(i<<12)|(jj<<8)|(kk<<4)|ll;
+							}
+						}
+					}
+				}
+			}
+		}
+	for(i=0;i<0x10000;i++){
+		for(r=j=0;j<4;j++)
+			if(((i>>(j*4))&15)==0)
+				r++;
+		ht[i]=r;
+	}
+	for(i=0;i<1024;i++){
+		for(r=j=0;j<10;j++)
+			if((i>>j)&1)
+				r++;
+		bt[i]=r;
+	}
+}
+
+void initt(){
+	int i,j,k,l,jj,kk,ll;
+	initp();
+	initnt2();
+	for(j=4;j<=10;j++)
+		for(i=0;i<TS;i++)
+			mi[j][i]=imn(j,i);
+	for(i=0;i<QS-1;i++)
+		qbs[i].ptr[0]=&qbs[i+1];
+	qbs[QS-1].ptr[0]=NULL;
+	qbt=&qbs[0];
+}
+
+int used_numbers(Q2*ptr,int len){
+	int i,r;
+	for(r=0,i=0;i<len;i++)
+		r|=ptr[i];
+	return r>>16;
+}
+
+QB*aqb(){
+	struct qbox*tmp;
+	int i;
+	tmp=qbt;
+	if((qbt=qbt->ptr[0])==NULL){
+		fprintf(stderr,"qbox is exausted?\n");
+		exit(1);
+	}
+	for(i=0;i<SLS;i++)
+		tmp->ptr[i]=NULL;
+#if 0
+	qbox_use++;
+#endif
+	return tmp;
+}
+
+void fqb(QB*ptr){
+	int i;
+	for(i=0;i<SLS;i++)
+		if(ptr->ptr[i]!=NULL){
+			fqb(ptr->ptr[i]);
+			ptr->ptr[i]=NULL;
+		}
+	ptr->ptr[0]=qbt;
+	qbt=ptr;
+#if 0
+	qbox_use--;
+#endif
+}
+
+void question2str(Q2 q,char*str){
+	sprintf(str,"%c%c%c%c",('0'+((q>>12)&15)),('0'+((q>>8)&15)),
+		('0'+((q>>4)&15)),('0'+(q&15)));
+}
+
+void dqb(QB*qptr,int level,FILE*fp){
+	int i,j,cnt;
+	char buf[5];
+	for(j=0;j<level;j++)
+		putc('\t',fp);
+	if(qptr==NULL){
+		fprintf(fp,"nil\n");
+	} else{
+		for(cnt=i=0;i<SLS;i++)
+			if(qptr->ptr[i]!=NULL)
+				cnt++;
+		if(cnt==0){
+			question2str(qptr->query,buf);
+			fprintf(fp,"%s\n",buf);
+		} else{
+			fprintf(fp,"(%s\n",cs[0xa]);
+			for(j=0;j<level+1;j++)
+				putc('\t',fp);
+			question2str(qptr->query,buf);
+			fprintf(fp,"%s\n",buf);
+			for(i=0;i<SLS;i++){
+#if 0
+				j=cr[i];
+#else
+				j=i;
+#endif
+				dqb(qptr->ptr[j],level+1,fp);
+			}
+			for(j=0;j<level;j++)
+				putc('\t',fp);
+			fprintf(fp,")\n");
+		}
+	}
+}
+
+int limit_table[11][3]={
+	{0,0,0},
+	{0,0,0},
+	{0,0,0},
+	{0,0,0},
+	{4,12,24},
+	{8,45,109},
+	{11,78,276},
+	{13,101,494},
+	{14,114,674},
+	{14,122,783},
+	{14,127,864}
+};
+
+int imn(int n_exist,int num){
+	if(num==0)
+		return 0;
+	else if(num<=limit_table[n_exist][0])
+		return num*2-1;
+	else if(num<=limit_table[n_exist][1])
+		return num*3-1-limit_table[n_exist][0];
+	else if(num<=limit_table[n_exist][2])
+		return num*4-1-limit_table[n_exist][0]-limit_table[n_exist][1];
+	else
+		return num*5-limit_table[n_exist][0]-limit_table[n_exist][1]-limit_table[n_exist][2];
+}
+
+int hb(Q2 q1,Q2 q2){
+	int hit,blow;
+	hit=ht[(q1^q2)&0xffff];
+	blow=bt[(q1&q2)>>16];
+	return cv2[hit][blow];
+}
+
+int sp(Q2 q,int level,int permlen,int used){
+	int i,j,k,next_n,c;
+	Q2 min_q,tmp_q;
+	min_q=q&0xffff;
+	for(i=k=0;i<permlen;i++){
+		next_n=bt[used];
+		for(tmp_q=0,j=0;j<4;j++){
+			c=(q>>(12-p4[level][i][j]*4))&15;
+			tmp_q<<=4;
+			if((used>>c)&1)
+				tmp_q|=p10[level][i][c];
+			else
+				tmp_q|=next_n++;
+		}
+		if(tmp_q==min_q){
+			for(j=0;j<4;j++){
+				p4[level+1][k][j]=p4[level][i][j];
+			}
+			for(j=0;j<10;j++){
+				p10[level+1][k][j]=p10[level][i][j];
+			}
+			next_n=bt[used];
+			for(j=0;j<4;j++){
+				p4[level+1][k][j]=p4[level][i][j];
+				c=(q>>(12-p4[level][i][j]*4))&15;
+				if(!((used>>c)&1)){
+					p10[level+1][k][c]=next_n++;
+				}
+			}
+			k++;
+		}
+	}
+	return k;
+}
+
+int cp(Q2 q,int level,int permlen,int used){
+	int i,j,next_n,c;
+	Q2 min_q,tmp_q;
+	min_q=q&0xffff;
+	for(i=0;i<permlen;i++){
+		next_n=bt[used];
+		for(tmp_q=0,j=0;j<4;j++){
+			c=(q>>(12-p4[level][i][j]*4))&15;
+			tmp_q<<=4;
+			if((used>>c)&1)
+				tmp_q|=p10[level][i][c];
+			else
+				tmp_q|=next_n++;
+		}
+		if(tmp_q<min_q)
+			return 0;
+	}
+	return 1;
+}
+
+void mkhp(short*assumed,short*index,int tablesize){
+	int i,j,k,v,ind;
+	for(i=tablesize/2;i>=1;i--){
+		v=assumed[ind=index[i]];
+		for(j=i;j<=tablesize/2;j=k){
+			k=j+j;
+			if(k<tablesize&&assumed[index[k]]>assumed[index[k+1]])
+				k++;
+			if(v<=assumed[index[k]])
+				break;
+			index[j]=index[k];
+		}
+		index[j]=ind;
+	}
+}
+
+void dnhp(short*assumed,short*index,int tablesize,int i){
+	int v,ind,j,k;
+	v=assumed[ind=index[i]];
+	for(j=i;j<=tablesize/2;j=k){
+		k=j+j;
+		if(k<tablesize&&assumed[index[k]]>assumed[index[k+1]])
+			k++;
+		if(v<=assumed[index[k]])
+			break;
+		index[j]=index[k];
+	}
+	index[j]=ind;
+}
+
+void sbo(short a[],short index[],int nel){
+	int i,j,k,ind,v;
+	for(i=0;i<nel;i++)
+		index[i]=i;
+	for(i=nel/2;i>0;i--){
+		ind=index[i];
+		v=a[ind];
+		for(j=i;j<=nel/2;j=k){
+			k=j+j;
+			if(k<nel&&a[index[k]]<a[index[k+1]])
+				k++;
+			if(v>=a[index[k]])
+				break;
+			index[j]=index[k];
+		}
+		index[j]=ind;
+	}
+	for(k=nel;k>1;k--){
+		ind=index[1];
+		index[1]=index[k];
+		for(v=a[1],i=1;i<=k/2;i=j){
+			j=i+i;
+			if(j<k&&a[index[j]]<a[index[j+1]])
+				j++;
+			if(v>=a[index[j]])
+				break;
+			index[i]=index[j];
+		}
+		index[i]=ind;
+	}
+}
+
+int cnt(Q2*ptr,int len,Q2 src,short*dest,short*assumed_sub){
+	int i,j,val,minval,nonzeros,sel_len;
+	Q2 q,exist[SLS];
+	for(i=0;i<SLS;i++){
+		dest[i]=0;
+		exist[i]=0;
+	}
+	for(i=0;i<len;i++){
+		q=ptr[i];
+		j=hb(q,src);
+		dest[j]++;
+		exist[j]|=q;
+	}
+	for(nonzeros=val=i=0;i<SLS;i++){
+		if((sel_len=dest[i])){
+			assumed_sub[i]=minval=
+			mi[bt[exist[i]>>16]][sel_len];
+			nonzeros++;
+			val+=minval;
+		}
+	}
+	
+	if(dest[0])
+		val--;
+	if(nonzeros>1)
+		return val+len;
+	else
+		return INFINITY;
+}
+
+int cu(Q2 q,int*zeros,int map){
+	int i,v;
+	for(i=0;i<4;i++){
+		v=COL(q,i);
+		if(!((map>>v)&1)){
+			if(*zeros++!=v)
+				return 0;
+		}
+	}
+	return 1;
+}
+
+int cmp(Q2*ptr,int len,int level,int used_in_q,int permlen,QB*qbox,int minval){
+	int i,j,k,k1,k2;
+	int seltops[SLS],selptrs[SLS];
+	Q2 to_child[TS],src,*c_ptr;
+	short assumed[TS+1];
+	short assumed_sub[TS][SLS];
+	short assumed_three[SLS];
+	short index[TS];
+	short sel_order[SLS];
+	int uniq[10],sort_i,uniq1[10];
+	int maxval=0,tmpval,zerolen,map,zerolen1,used,newuse,newpermlen,tmpval1;
+	QB tmp_qbox,*c_qbox,*c_qbox1,*c_qbox2,*c_qbox3,*c_qbox4;
+	int tablesize,updated=0,sel_j;
+#if 0
+	int cnt1=0;
+#endif
+	c_compute++;
+	if(len==1){
+		qbox->query=ptr[0];
+		return 0;
+	}
+	if(len==2){
+		qbox->query=ptr[0];
+		if((tmpval=cnt(ptr,2,qbox->query,check[level][0],assumed_three))==5){
+			c_qbox=aqb();
+			qbox->ptr[0]=c_qbox;
+			c_qbox->query=ptr[1];
+			return 1;
+		}
+		qbox->query=ptr[1];
+		if((tmpval=cnt(ptr,2,qbox->query,check[level][0],assumed_three))==5){
+			c_qbox=aqb();
+			qbox->ptr[0]=c_qbox;
+			c_qbox->query=ptr[0];
+			return 1;
+		}
+		fprintf(stderr,"something wrong? len==2, but not 1?\n");
+		exit(1);
+	}
+	used=used_numbers(ptr,len)|used_in_q;
+	for(i=0;i<10;i++)
+		if(!((used>>i)&1))
+			break;
+	for(zerolen=0;i<10;i++)
+		if(!((used>>i)&1))
+			uniq[zerolen++]=i;
+	for(i=0;i<SLS;i++)
+		seltops[i]=0;
+
+	if(level==1&&bt[used]==4){
+		for(i=0;i<TS;i++){
+			if(cu(nt2[i],uniq,used)&&
+				cp(nt2[i],level,permlen,used_in_q)){
+				if((assumed[i]=cnt(ptr,len,nt2[i],check[level-1][i],assumed_sub[i]))<INFINITY)
+					index[++j]=i;
+			}
+		}
+	} else{
+		for(i=j=0;i<TS;i++){
+			if((assumed[i]=cnt(ptr,len,nt2[i],check[level-1][i],assumed_sub[i]))<INFINITY)
+				index[j++]=i;
+		}
+	}
+	tablesize=j;
+	
+	mkhp(assumed,index,tablesize);
+	c_long_compute++;
+	c_tablelen+=tablesize;
+#if 0
+	minval=INFINITY;
+#endif
+	for(i=tablesize;i>=1;i--){
+		sort_i=index[1];
+#if 1
+		if((tmpval=assumed[sort_i])>=minval)
+			break;
+#endif
+		c_selectlen++;
+#if 0
+		printf("i=%d,sort_i=%d,assumed=%d\n",i,sort_i,assumed[sort_i]);
+#endif
+		src=nt2[sort_i];
+		map=src>>16;
+		if(bt[used_in_q]==4){
+			if(bt[map]==4&&((map&used_in_q)==used_in_q)){
+				qbox->query=src;
+				for(k=0;k<SLS;k++)
+					seltops[k]+=check[level-1][sort_i][k];
+				uniq1[0]=uniq1[1]=uniq1[2]=uniq1[3]=uniq1[4]=uniq1[5]=
+				uniq1[6]=uniq1[7]=uniq1[8]=uniq1[9]=-1;
+				for(newuse=used,k=0;k<4;k++){
+					j=COL(src,k);
+					if(!((newuse>>j)&1)){
+						newuse|=1<<j;
+						uniq1[j]=bt[newuse]-1;
+					}
+				}
+				newpermlen=sp(qbox->query,level,permlen,used_in_q);
+				for(j=1;j<SLS;j++)
+					seltops[j]=selptrs[j]=seltops[j-1]+check[level-1][sort_i][j-1];
+				for(j=0;j<len;j++)
+					to_child[selptrs[hb(src,ptr[j])]++]=ptr[j];
+				sbo(check[level-1][sort_i],sel_order,SLS);
+				for(j=0;j<SLS;j++){
+					sel_j=sel_order[j];
+					switch(check[level-1][sort_i][sel_j]){
+					case 0:
+						break;
+					case 1:
+						c_qbox=aqb();
+						question2str(ptr[seltops[sel_j]],(char*)&uniq1[0]);
+						c_qbox->query=ptr[seltops[sel_j]];
+						c_qbox1=aqb();
+						qbox->ptr[sel_j]=c_qbox;
+						c_qbox->ptr[0]=c_qbox1;
+						c_qbox1->query=
+						to_child[seltops[sel_j]];
+						if(sel_j==0){
+							c_qbox2=aqb();
+							c_qbox3=aqb();
+							c_qbox4=aqb();
+							c_qbox->ptr[1]=c_qbox2;
+							c_qbox->ptr[2]=c_qbox3;
+							c_qbox->ptr[3]=c_qbox4;
+							c_qbox2->query=
+							to_child[seltops[sel_j]+1];
+							c_qbox3->query=
+							to_child[seltops[sel_j]+2];
+							c_qbox4->query=
+							to_child[seltops[sel_j]+3];
+							tmpval+=3;
+						}
+						tmpval++;
+						break;
+					case 2:
+						c_ptr=&to_child[seltops[sel_j]];
+						c_qbox=aqb();
+						c_qbox1=aqb();
+						c_qbox2=aqb();
+						tmp_qbox.ptr[sel_j]=c_qbox;
+						c_qbox->query=c_ptr[0];
+						c_qbox1->query=c_ptr[0];
+						c_qbox2->query=c_ptr[1];
+						c_qbox->ptr[0]=c_qbox1;
+						c_qbox->ptr[hb(c_ptr[1],c_ptr[0])]=c_qbox2;
+						tmpval+=3;
+						break;
+					case 3:
+						c_ptr=&to_child[seltops[sel_j]];
+						c_qbox=aqb();
+						c_qbox1=aqb();
+						c_qbox2=aqb();
+						c_qbox3=aqb();
+						tmp_qbox.ptr[sel_j]=c_qbox;
+						c_qbox->query=c_ptr[0];
+						c_qbox1->query=c_ptr[0];
+						c_qbox2->query=c_ptr[1];
+						c_qbox3->query=c_ptr[2];
+						c_qbox->ptr[0]=c_qbox1;
+						c_qbox->ptr[hb(c_ptr[1],c_ptr[0])]=c_qbox2;
+						k=hb(c_ptr[2],c_ptr[0]);
+						if(k==0){
+							k1=hb(c_ptr[2],c_ptr[1]);
+							c_qbox3->ptr[0]=c_qbox2;
+							c_qbox3->ptr[k1]=c_qbox1;
+						} else{
+							c_qbox3->ptr[0]=c_qbox1;
+							c_qbox3->ptr[k]=c_qbox2;
+						}
+						tmpval+=5;
+						break;
+					default:
+						c_qbox=aqb();
+						tmp_qbox.ptr[sel_j]=c_qbox;
+						c_qbox->query=to_child[seltops[sel_j]];
+						tmpval1=cmp(&to_child[seltops[sel_j]],check[level-1][sort_i][sel_j],
+							level+1,newuse,newpermlen,c_qbox,assumed_sub[sort_i][sel_j]+(minval-tmpval));
+						if(tmpval1>=minval){
+							fqb(tmp_qbox.ptr[sel_j]);
+							tmp_qbox.ptr[sel_j]=NULL;
+							tmpval=minval;
+							break;
+						}
+						tmpval+=tmpval1;
+					}
+					if(tmpval>=minval){
+						i=0;
+						break;
+					}
+				}
+			}
+		} else{
+			seltops[0]=selptrs[0]=0;
+			for(j=1;j<SLS;j++)
+				seltops[j]=selptrs[j]=seltops[j-1]+check[level-1][sort_i][j-1];
+			for(j=0;j<len;j++)
+				to_child[selptrs[hb(src,ptr[j])]++]=ptr[j];
+			tmp_qbox.query=src;
+			for(j=0;j<SLS;j++){
+				switch(check[level-1][sort_i][j]){
+				case 0:
+					break;
+				case 1:
+					c_qbox=aqb();
+					tmp_qbox.ptr[j]=c_qbox;
+					c_qbox1=aqb();
+					c_qbox->ptr[0]=c_qbox1;
+					c_qbox->query=
+					to_child[seltops[j]];
+					c_qbox1->query=
+					to_child[seltops[j]];
+					tmpval++;
+					break;
+				case 2:
+					c_ptr=&to_child[seltops[j]];
+					c_qbox=aqb();
+					c_qbox1=aqb();
+					c_qbox2=aqb();
+					tmp_qbox.ptr[j]=c_qbox;
+					c_qbox->query=c_ptr[0];
+					c_qbox1->query=c_ptr[0];
+					c_qbox2->query=c_ptr[1];
+					c_qbox->ptr[0]=c_qbox1;
+					c_qbox->ptr[hb(c_ptr[1],c_ptr[0])]=c_qbox2;
+					tmpval+=3;
+					break;
+				case 3:
+					c_ptr=&to_child[seltops[j]];
+					c_qbox=aqb();
+					c_qbox1=aqb();
+					c_qbox2=aqb();
+					c_qbox3=aqb();
+					tmp_qbox.ptr[j]=c_qbox;
+					c_qbox->query=c_ptr[0];
+					c_qbox1->query=c_ptr[0];
+					c_qbox2->query=c_ptr[1];
+					c_qbox3->query=c_ptr[2];
+					c_qbox->ptr[0]=c_qbox1;
+					c_qbox->ptr[hb(c_ptr[1],c_ptr[0])]=c_qbox2;
+					k=hb(c_ptr[2],c_ptr[0]);
+					if(k==0){
+						k1=hb(c_ptr[2],c_ptr[1]);
+						c_qbox3->ptr[0]=c_qbox2;
+						c_qbox3->ptr[k1]=c_qbox1;
+					} else{
+						c_qbox3->ptr[0]=c_qbox1;
+						c_qbox3->ptr[k]=c_qbox2;
+					}
+					tmpval+=5;
+					break;
+				default:
+					c_qbox=aqb();
+					tmp_qbox.ptr[j]=c_qbox;
+					c_qbox->query=to_child[seltops[j]];
+					tmpval1=cmp(&to_child[seltops[j]],check[level-1][sort_i][j],
+						level+1,used_in_q,permlen,c_qbox,assumed_sub[sort_i][j]+(minval-tmpval));
+					if(tmpval1>=minval){
+						fqb(tmp_qbox.ptr[j]);
+						tmp_qbox.ptr[j]=NULL;
+						tmpval=minval;
+						break;
+					}
+					tmpval+=tmpval1;
+				}
+				if(tmpval>=minval){
+					i=0;
+					break;
+				}
+			}
+		}
+		if(tmpval<minval){
+			*qbox=tmp_qbox;
+			minval=tmpval;
+			updated=1;
+		} else{
+			for(j=0;j<SLS;j++){
+				if(tmp_qbox.ptr[j]!=NULL)
+					fqb(tmp_qbox.ptr[j]);
+			}
+			if(updated)
+				break;
+		}
+		index[1]=index[i];
+		dnhp(assumed,index,i=--tablesize,1);
+	}
+	if(!updated){
+		qbox->query=0;
+	}
+	return minval;
+}
+
+int cmp2(Q2*ptr,int len,QB*qbox,int minval){
+	int i,j,k,k1,k2;
+	int seltops[SLS],selptrs[SLS];
+	Q2 to_child[TS],src,*c_ptr;
+	short assumed[SIZEOF_SECOND];
+	short assumed_sub[SIZEOF_SECOND][SLS];
+	short assumed_three[SLS];
+	short index[TS];
+	short sel_order[SLS];
+	short second_check[SIZEOF_SECOND][SLS];
+	short second_check_three[SLS];
+	int maxval=0,tmpval,use,permlen,updated=0,tmpval1,sel_j;
+	QB tmp_qbox,*c_qbox,*c_qbox1,*c_qbox2,*c_qbox3,*c_qbox4;
+	
+	for(i=0;i<SIZEOF_SECOND;i++){
+		assumed[i]=cnt(ptr,len,sd[i],second_check[i],assumed_sub[i]);
+	}
+	sbo(assumed,index,SIZEOF_SECOND);
+
+	for(i=SIZEOF_SECOND;i>=1;i--){
+		j=index[1];
+		if((tmpval=assumed[j])>=minval){
+			break;
+		}
+		src=sd[j];
+		qbox->query=src;
+		use=(src>>16)|0xf;
+		
+		permlen=sp(src,1,24,0xf);
+		for(j=1;j<SLS;j++)
+			seltops[j]=selptrs[j]=seltops[j-1]+second_check[i][j-1];
+		for(j=0;j<len;j++)
+			to_child[selptrs[hb(src,ptr[j])]++]=ptr[j];
+		sbo(second_check[i],sel_order,SLS);
+		for(j=0;j<SLS;j++){
+			sel_j=sel_order[j];
+			switch(second_check[i][sel_j]){
+			case 0:
+				break;
+			case 1:
+				c_qbox=
+				qbox->ptr[sel_j]=aqb();
+				c_qbox1=aqb();
+				c_qbox->ptr[0]=c_qbox1;
+				c_qbox->query=
+				to_child[seltops[sel_j]];
+				c_qbox1->query=
+				to_child[seltops[sel_j]];
+				tmpval++;
+				break;
+			case 2:
+				c_ptr=&to_child[seltops[sel_j]];
+				c_qbox=aqb();
+				c_qbox1=aqb();
+				c_qbox2=aqb();
+				qbox->ptr[sel_j]=c_qbox;
+				c_qbox->query=c_ptr[0];
+				c_qbox1->query=c_ptr[0];
+				c_qbox2->query=c_ptr[1];
+				c_qbox->ptr[0]=c_qbox1;
+				c_qbox->ptr[hb(c_ptr[1],c_ptr[0])]=c_qbox2;
+				tmpval+=3;
+				break;
+			case 3:
+				c_ptr=&to_child[seltops[sel_j]];
+				c_qbox=aqb();
+				c_qbox1=aqb();
+				c_qbox2=aqb();
+				c_qbox3=aqb();
+				qbox->ptr[sel_j]=c_qbox;
+				c_qbox->query=c_ptr[0];
+				c_qbox1->query=c_ptr[0];
+				c_qbox2->query=c_ptr[1];
+				c_qbox3->query=c_ptr[2];
+				c_qbox->ptr[0]=c_qbox1;
+				c_qbox->ptr[hb(c_ptr[1],c_ptr[0])]=c_qbox2;
+				k=hb(c_ptr[2],c_ptr[0]);
+				if(k==0){
+					k1=hb(c_ptr[2],c_ptr[1]);
+					c_qbox3->ptr[0]=c_qbox2;
+					c_qbox3->ptr[k1]=c_qbox1;
+				} else{
+					c_qbox3->ptr[0]=c_qbox1;
+					c_qbox3->ptr[k]=c_qbox2;
+				}
+				tmpval+=5;
+				break;
+			default:
+				c_qbox=aqb();
+				qbox->ptr[sel_j]=c_qbox;
+				c_qbox->query=to_child[seltops[sel_j]];
+				tmpval1=cmp(&to_child[seltops[sel_j]],second_check[i][sel_j],
+					2,use,permlen,c_qbox,assumed_sub[i][sel_j]+(minval-tmpval));
+				if(tmpval1>=minval){
+					fqb(qbox->ptr[sel_j]);
+					qbox->ptr[sel_j]=NULL;
+					tmpval=minval;
+					break;
+				}
+				tmpval+=tmpval1;
+			}
+			if(tmpval>=minval){
+				i=0;
+				break;
+			}
+		}
+		if(tmpval<minval){
+			minval=tmpval;
+			updated=1;
+		} else{
+			for(j=0;j<SLS;j++){
+				if(qbox->ptr[j]!=NULL)
+					fqb(qbox->ptr[j]);
+			}
+			if(updated)
+				break;
+		}
+		index[1]=index[i];
+		dnhp(assumed,index,i=--SIZEOF_SECOND,1);
+	}
+	return minval;
+}
+
+int main(int ac,char**ag){
+	int i,j,tmpval,val;
+	short check[SLS];
+	int seltops[SLS],selptrs[SLS];
+	Q2 to_child[TS];
+	short assumed_one[SLS];
+	FILE*fp;
+	char filename[256];
+	int map[256];
+	QB*qbox,*c_qbox;
+	int sel;
+	if(ac>1){
+		sel=atoi(ag[1]);
+	} else{
+		exit(1);
+	}
+	initt();
+	maxlevel=0;
+	qbox=aqb();
+	for(i=0;i<SLS;i++)
+		seltops[i]=0;
+	for(i=0;i<SLS;i++)
+		check[i]=0;
+	for(j=0;j<TS;j++)
+		check[hb(fd,nt2[j])]++;
+
+	for(j=1;j<SLS;j++)
+		seltops[j]=selptrs[j]=seltops[j-1]+check[j-1];
+
+	assumed_one[0]=1;
+	for(i=1;i<SLS;i++)
+		assumed_one[i]=INFINITY;
+#if 1
+	val=1;
+#else
+	val=0;
+#endif
+	sprintf(filename,"%s-%s.txt",cs[0xa],cs[sel]);
+	fp=fopen(filename,"w");
+	fflush(stdout);
+	for(j=0;j<TS;j++)
+		to_child[selptrs[hb(fd,nt2[j])]++]=nt2[j];
+	tmpval=0;
+	j=sel;
+#if 1
+	tmpval+=(val=cmp2(&to_child[seltops[j]],check[j],qbox,minvals[j]+1));
+#else
+	tmpval+=(val=cmp2(&to_child[seltops[j]],check[j],qbox,INFINITY));
+#endif
+	dqb(qbox,0,stdout);
+	fprintf(stderr,"%d: val=%d,type=%s,len=%d,c_compute=%d\n",j,tmpval,cs[j],check[j],c_compute);
+	fprintf(stderr,"    c_long_compute=%d,c_tablelen=%d,c_selectlen=%d\n",c_long_compute,c_tablelen,c_selectlen);
+	exit(0);
+}
+```
+
+---]]></content><author><name></name></author><category term="猜数字" /><category term="bulls&amp;cows" /><summary type="html"><![CDATA[# 一份“猜数字”求解器（Tanaka）]]></summary></entry></feed>

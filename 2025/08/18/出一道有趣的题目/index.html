@@ -1,0 +1,477 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>出一道有趣的题目 · lzray的博客</title><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>出一道有趣的题目 | lzray的博客</title>
+<meta name="generator" content="Jekyll v4.4.1" />
+<meta property="og:title" content="出一道有趣的题目" />
+<meta property="og:locale" content="zh_CN" />
+<meta name="description" content="出一道有趣的题目" />
+<meta property="og:description" content="出一道有趣的题目" />
+<link rel="canonical" href="/2025/08/18/%E5%87%BA%E4%B8%80%E9%81%93%E6%9C%89%E8%B6%A3%E7%9A%84%E9%A2%98%E7%9B%AE/" />
+<meta property="og:url" content="/2025/08/18/%E5%87%BA%E4%B8%80%E9%81%93%E6%9C%89%E8%B6%A3%E7%9A%84%E9%A2%98%E7%9B%AE/" />
+<meta property="og:site_name" content="lzray的博客" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2025-08-18T00:00:00+08:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="出一道有趣的题目" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2025-08-18T00:00:00+08:00","datePublished":"2025-08-18T00:00:00+08:00","description":"出一道有趣的题目","headline":"出一道有趣的题目","mainEntityOfPage":{"@type":"WebPage","@id":"/2025/08/18/%E5%87%BA%E4%B8%80%E9%81%93%E6%9C%89%E8%B6%A3%E7%9A%84%E9%A2%98%E7%9B%AE/"},"url":"/2025/08/18/%E5%87%BA%E4%B8%80%E9%81%93%E6%9C%89%E8%B6%A3%E7%9A%84%E9%A2%98%E7%9B%AE/"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="alternate" type="application/atom+xml" title="lzray的博客 Feed" href="/feed.xml">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <link href="https://fonts.cdnfonts.com/css/avenir" rel="stylesheet">
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
+
+    <script>
+      (function() {
+        // Available theme names from Prism 1.29.0 CDN
+        var lightThemes = ["prism", "prism-solarizedlight", "prism-ghcolors"];
+        var darkThemes  = ["prism-okaidia", "prism-tomorrow", "prism-vsc-dark-plus"];
+        function dayOfYear(d){ var start=new Date(d.getFullYear(),0,0); var diff=d - start; return Math.floor(diff/86400000); }
+        var isDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        var themes = isDark ? darkThemes : lightThemes;
+        var idx = dayOfYear(new Date()) % themes.length;
+        var theme = themes[idx];
+        var href = 'https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/' + theme + '.min.css';
+        var link = document.createElement('link');
+        link.id = 'prism-theme';
+        link.rel = 'stylesheet';
+        link.href = href;
+        link.setAttribute('crossorigin', 'anonymous');
+        link.setAttribute('referrerpolicy', 'no-referrer');
+        document.head.appendChild(link);
+
+        // React to scheme changes
+        if (window.matchMedia) {
+          var mq = window.matchMedia('(prefers-color-scheme: dark)');
+          mq.addEventListener('change', function() {
+            var head = document.head;
+            var old = document.getElementById('prism-theme');
+            if (old) head.removeChild(old);
+            var nowDark = mq.matches;
+            var tset = nowDark ? darkThemes : lightThemes;
+            var tidx = dayOfYear(new Date()) % tset.length;
+            var th = tset[tidx];
+            var href2 = 'https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/' + th + '.min.css';
+            var link2 = document.createElement('link');
+            link2.id = 'prism-theme';
+            link2.rel = 'stylesheet';
+            link2.href = href2;
+            link2.setAttribute('crossorigin', 'anonymous');
+            link2.setAttribute('referrerpolicy', 'no-referrer');
+            head.appendChild(link2);
+          });
+        }
+      })();
+    </script>
+        <!-- Prism auto themes (system light/dark) -->
+    <link rel="stylesheet" data-prism-auto="light" media="(prefers-color-scheme: light)" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css">
+    <link rel="stylesheet" data-prism-auto="dark" media="(prefers-color-scheme: dark)" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css">
+    <script>
+  window.MathJax = {
+    tex: {
+      inlineMath: [['$', '$'], ['\\(', '\\)']],
+      displayMath: [['$$','$$'], ['\\[','\\]']],
+      processEscapes: true
+    },
+    options: {
+      skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+    }
+  };
+</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    <!-- Prism named themes for manual selection (disabled by default) -->
+    <link rel="stylesheet" data-prism-theme="default-light" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" disabled>
+    <link rel="stylesheet" data-prism-theme="coy" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-coy.min.css" disabled>
+    <link rel="stylesheet" data-prism-theme="solarizedlight" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-solarizedlight.min.css" disabled>
+    <link rel="stylesheet" data-prism-theme="okaidia" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css" disabled>
+    <link rel="stylesheet" data-prism-theme="tomorrow" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" disabled>
+
+
+    <!-- Prism.js core and plugins (cdnjs, 1.29.0) -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css"
+          crossorigin="anonymous" referrerpolicy="no-referrer">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js"
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container">
+        <a class="site-title" href="/">lzray的博客</a>
+        <nav class="site-nav">
+          <a href="/">首页</a>
+          <a href="/about/">关于</a>
+        </nav>
+        <form class="prism-theme-picker" style="display:inline-block; margin-left: 12px;">
+          <label for="prism-theme-select" style="margin-right:6px;">高亮主题</label>
+          <select id="prism-theme-select" aria-label="Prism code theme">
+            <option value="auto">自动(跟随系统)</option>
+            <option value="default-light">Light: Default</option>
+            <option value="coy">Light: Coy</option>
+            <option value="solarizedlight">Light: Solarized</option>
+            <option value="okaidia">Dark: Okaidia</option>
+            <option value="tomorrow">Dark: Tomorrow</option>
+          </select>
+        </form>
+      </div>
+    </header>
+
+    <main class="container content">
+      <div class="post-wrapper">
+  <aside id="outline-panel"></aside>
+  <article id="post-content" class="post">
+    <h1 class="post-title">出一道有趣的题目</h1>
+    <div class="post-meta">
+      <time datetime="2025-08-18T00:00:00+08:00">2025-08-18</time>
+       · 出题
+       · /
+    </div>
+    <div class="post-content">
+      <h1 id="出一道有趣的题目">出一道有趣的题目</h1>
+
+<hr />
+
+<h1 id="普通版">普通版</h1>
+
+<h2 id="1-定义">1. 定义</h2>
+
+<h3 id="11-位置与双出现模式">1.1 位置与双出现模式</h3>
+
+<ul>
+  <li><strong>位置</strong>：对长度为 $n$ 的序列，用 $i\in[1,n]$ 表示下标。</li>
+  <li><strong>双出现模式</strong>：长度为偶数 $n$，记 $m=n/2$。序列 $A=(A_1,\dots,A_n)$ 满足：对每个 $k\in{1,\dots,m}$，在 $A$ 中恰好出现两次。
+对每个 $k$，记两次出现位置为 $L_k&lt;R_k$，并记开区间 $(L_k,R_k)$。</li>
+</ul>
+
+<h3 id="12-规范翻译为置换">1.2 规范翻译为置换</h3>
+
+<p>给定一个双出现模式 $A$，按下述<strong>唯一规则</strong>生成置换 $p$（即 $p$ 为 ${1,\dots,n}$ 的某个排列）：</p>
+
+<p>按 $k=1,2,\dots,m$ 的<strong>递增顺序</strong>处理每个位置对 $(L_k,R_k)$。在处理 $k$ 时：</p>
+
+\[s_k \;=\; \#\{\,t\in(L_k,R_k)\mid \text{位置 }t\text{ 已在此前步骤被赋值}\,\}.\]
+
+<ul>
+  <li>若 $s_k$ 为<strong>偶数</strong>，则令 $p_{L_k}=2k-1,\ p_{R_k}=2k$；</li>
+  <li>若 $s_k$ 为<strong>奇数</strong>，则令 $p_{L_k}=2k,\ \ p_{R_k}=2k-1$。</li>
+</ul>
+
+<p>处理结束后得到的 $p$ <strong>确定且唯一</strong>。</p>
+
+<blockquote>
+  <p>直观记忆：每个 $k$ 对应一对连续数 $(2k-1,2k)$，按其区间内“<strong>已赋值</strong>个数”的<strong>奇偶</strong>决定左右顺序。</p>
+</blockquote>
+
+<hr />
+
+<h2 id="2-任务">2. 任务</h2>
+
+<p>你将同时拿到 $m_{\text{pat}}$ 个双出现模式（长度均为同一个 $n$），并需要回答 $q$ 个查询。每个查询属于以下两类之一：</p>
+
+<ul>
+  <li><strong>类型 1（取值）</strong>：给定模式编号 $z$ 与位置 $i$，输出该模式经规范翻译所得置换 $p^{(z)}$ 的第 $i$ 项 $p^{(z)}_i$。</li>
+  <li>
+    <p><strong>类型 2（最早强分离）</strong>：给定两个模式编号 $u,v$，设它们对应的置换分别为 $p^{(u)},p^{(v)}$。找出最小的位置 $c$，满足</p>
+
+\[\bigl|\,p^{(u)}_c - p^{(v)}_c\,\bigr|\ \ge\ 2.\]
+
+    <p>若两个模式完全相同，从而不存在这样的 $c$，则输出 $-1$。</p>
+  </li>
+</ul>
+
+<blockquote>
+  <p>注：“<strong>强分离</strong>”指同列数值差至少 2；该性质在本规则下总是可检测的。</p>
+</blockquote>
+
+<hr />
+
+<h2 id="3-输入与输出">3. 输入与输出</h2>
+
+<h3 id="输入">输入</h3>
+
+<ul>
+  <li>第一行：三个整数 $n,m_{\text{pat}},q$（$n$ 为偶数）。</li>
+  <li>接下来 $m_{\text{pat}}$ 行：第 $z$ 行给出一个长度为 $n$ 的双出现模式 $A^{(z)}$（每行单独合法：每个 $k\in[1,n/2]$ 恰出现两次）。</li>
+  <li>
+    <p>接下来 $q$ 行：每行一个查询：</p>
+
+    <ul>
+      <li>形如 <code>1 z i</code>：类型 1 查询（模式 $z$、位置 $i$）。</li>
+      <li>形如 <code>2 u v</code>：类型 2 查询（比较模式 $u,v$）。</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="输出">输出</h3>
+
+<ul>
+  <li>
+    <p>对每个查询输出一行：</p>
+
+    <ul>
+      <li>类型 1：输出一个整数 $p^{(z)}_i$。</li>
+      <li>
+        <p>类型 2：若存在强分离位置，输出三个整数</p>
+
+\[c\ \ p^{(u)}_c\ \ p^{(v)}_c\]
+
+        <p>其中 $c$ 是最小满足条件的位置；若不存在，输出 $-1$。</p>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<hr />
+
+<h2 id="4-约束">4. 约束</h2>
+
+<ul>
+  <li>$2\le n\le 2\times 10^5$，$n$ 为偶数。</li>
+  <li>$1\le m_{\text{pat}},q\le 2\times 10^5$。</li>
+  <li><strong>总规模限制</strong>：读取所有模式的元素总数不超过给定上限（例如 $\sum n \le 10^6$）。</li>
+  <li>输入保证每个模式各自合法（每个值 $k$ 恰两次）。</li>
+  <li>评测为单组数据；建议实现目标：时间 1s / 内存 $\le 1$GB。</li>
+</ul>
+
+<hr />
+
+<h2 id="5-样例">5. 样例</h2>
+
+<h3 id="输入-1">输入</h3>
+
+<pre><code>6 3 5
+1 2 1 3 2 3
+1 3 2 1 2 3
+1 2 3 1 3 2
+1 1 3
+1 2 4
+2 1 2
+2 1 3
+2 2 3
+</code></pre>
+
+<h3 id="解释与可能输出">解释与可能输出</h3>
+
+<ul>
+  <li>模式 1 的规范置换为 <code>1 4 2 6 3 5</code></li>
+  <li>模式 2 的规范置换为 <code>1 6 4 2 3 5</code></li>
+  <li>模式 3 的规范置换为 <code>1 4 6 2 5 3</code></li>
+</ul>
+
+<p>对应查询输出：</p>
+
+<pre><code>2
+2
+2 4 6
+3 2 6
+2 6 4
+</code></pre>
+
+<hr />
+
+<hr />
+
+<h1 id="进阶">进阶</h1>
+
+<h2 id="1-定义-1">1. 定义</h2>
+
+<h3 id="11-双出现模式与规范翻译回顾">1.1 双出现模式与规范翻译（回顾）</h3>
+
+<p>与普通版一致。对每个模式 $A$ 先做 1.2 的规范翻译，得到置换的<strong>结构编码</strong>：</p>
+
+<ul>
+  <li>$J_i \in [1,m]$：位置 $i$ 属于哪一个“对号” $k$（即 $A_i$ 的标签）；</li>
+  <li>$S_i \in {0,1}$：该位置在其对内取<strong>小值(0)</strong>还是<strong>大值(1)</strong>；
+并有基准置换</li>
+</ul>
+
+\[p^{\text{base}}_i \;=\; 2J_i - 1 + S_i .\]
+
+<h3 id="12-偏置翻译">1.2 偏置翻译</h3>
+
+<p>对每个模式引入一个<strong>可变偏置</strong>数组 $B=(B_1,\dots,B_m)\in{0,1}^m$，初始全为 0。
+当前（受偏置后的）置换定义为</p>
+
+\[p_i \;=\; 2J_i - 1 + \bigl(S_i \oplus B_{J_i}\bigr).\]
+
+<p>含义：当且仅当 $B_k=1$ 时，对号 $k$ 的两格 $(2k-1,2k)$ 在当前状态中被整体<strong>翻转</strong>。</p>
+
+<h3 id="13-强分离回顾">1.3 强分离（回顾）</h3>
+
+<p>给定两个置换 $p^{(u)},p^{(v)}$，称位置 $c$ <strong>强分离</strong>，若</p>
+
+\[\bigl|p^{(u)}_c-p^{(v)}_c\bigr|\ \ge\ 2.\]
+
+<p>若对所有 $c$ 都不成立，则称二者无强分离。</p>
+
+<blockquote>
+  <p>等价表述（判定帮助）：记 $\Pi^{(z)}<em>i$ $=$ $(J^{(z)}_i,$ $S^{(z)}_i$ $\oplus$ $B^{(z)}</em>{J^{(z)}_i})$。
+两模式在列 $i$ <strong>不强分离</strong> 当且仅当满足其一：</p>
+
+  <ol>
+    <li>$J^{(u)}_i=J^{(v)}_i$ 且第二分量相等（同号同位 → <strong>数值相等</strong>）；</li>
+    <li>$|J^{(u)}_i-J^{(v)}_i|=1$ 且二者第二分量恰为 $(1,0)$ 或 $(0,1)$（相邻号、形成<strong>相邻整数</strong>）。
+否则为强分离。</li>
+  </ol>
+</blockquote>
+
+<hr />
+
+<h2 id="2-任务-1">2. 任务</h2>
+
+<p>你拿到 $m_{\text{pat}}$ 个双出现模式 $A^{(1)},\dots,A^{(m_{\text{pat}})}$（长度均为同一个 $n$，令 $m=n/2$）。
+对每个模式先求 $(J^{(z)},S^{(z)})$，并维护<strong>可变偏置</strong> $B^{(z)}$。需要在线处理 $q$ 个操作：</p>
+
+<ol>
+  <li><strong>取值</strong></li>
+</ol>
+
+<pre><code>1  z  i
+</code></pre>
+
+<p>输出当前 $p^{(z)}_i$。</p>
+
+<ol>
+  <li><strong>最早强分离</strong></li>
+</ol>
+
+<pre><code>2  u  v  l  r
+</code></pre>
+
+<table>
+  <tbody>
+    <tr>
+      <td>在区间 $[l,r]$ 内找最小 $c$，使 $\bigl</td>
+      <td>p^{(u)}_c-p^{(v)}_c\bigr</td>
+      <td>\ge 2$。若不存在输出 -1。</td>
+    </tr>
+  </tbody>
+</table>
+
+<ol>
+  <li><strong>偏置区间翻转</strong></li>
+</ol>
+
+<pre><code>3  z  a  b
+</code></pre>
+
+<p>对所有对号 $k\in[a,b]$ 执行 $B^{(z)}_k \gets B^{(z)}_k \oplus 1$。</p>
+
+<hr />
+
+<h2 id="3-输入输出">3. 输入输出</h2>
+
+<h3 id="输入-2">输入</h3>
+
+<ul>
+  <li>第一行：三个整数 $n,m_{\text{pat}},q$（$n$ 为偶数）。</li>
+  <li>接下来 $m_{\text{pat}}$ 行：第 $z$ 行给出模式 $A^{(z)}$ 的 $n$ 个整数（双出现合法）。</li>
+  <li>接下来 $q$ 行：每行一个操作，格式如上三类之一。</li>
+</ul>
+
+<h3 id="输出-1">输出</h3>
+
+<ul>
+  <li>类型 1：输出一行当前的 $p^{(z)}_i$。</li>
+  <li>
+    <p>类型 2：若存在强分离位置，输出</p>
+
+\[c\ \ p^{(u)}_c\ \ p^{(v)}_c\]
+
+    <p>为最小满足位置及两值；否则输出 $-1$。</p>
+  </li>
+  <li>类型 3：无输出。</li>
+</ul>
+
+<hr />
+
+<h2 id="4-约束-1">4. 约束</h2>
+
+<ul>
+  <li>$2\le n\le 2\times 10^5$，$n$ 为偶数，记 $m=n/2$。</li>
+  <li>$1\le m_{\text{pat}},q\le 2\times 10^5$。</li>
+  <li><strong>总规模限制</strong>：$m_{\text{pat}}\cdot n \le 10^6$。</li>
+  <li>输入保证每个模式各自合法。</li>
+  <li>单组数据；建议目标：时间 2s / 内存 $\le 1$GB。</li>
+</ul>
+
+<hr />
+
+<h2 id="5-样例-1">5. 样例</h2>
+
+<h3 id="输入-3">输入</h3>
+
+<pre><code>6 3 8
+1 2 1 3 2 3
+1 3 2 1 2 3
+1 2 3 1 3 2
+1 1 3
+2 1 2 1 6
+3 2 1 2
+2 1 2 1 6
+1 2 4
+3 1 1 1
+2 1 3 2 6
+2 2 3 1 3
+</code></pre>
+
+<h3 id="一种可能输出">一种可能输出</h3>
+
+<pre><code>3
+2 4 6
+2 6 4
+2
+3 2 6
+2 6 4
+</code></pre>
+
+<p>（注：偏置区间翻转会改变后续查询的列内左右次序，样例仅示交互效果。）</p>
+
+<hr />
+
+<h2 id="6-判定等价便于实现">6. 判定等价（便于实现）</h2>
+
+<p>将每列视作二元对 $\Pi^{(z)}<em>i$ $=$ $(J^{(z)}_i,$ $S^{(z)}_i$ $\oplus$ $B^{(z)}</em>{J^{(z)}_i})$。</p>
+
+<ul>
+  <li><strong>不强分离</strong> $\Leftrightarrow$
+(i) 同号且同位；或
+(ii) 号相邻且位为 $(1,0)$ 或 $(0,1)$。</li>
+  <li>其余情形为<strong>强分离</strong>。类型 2 查询就是在 $[l,r]$ 内寻找首个使上述判定<strong>不成立</strong>的列。</li>
+</ul>
+
+    </div>
+  </article>
+</div>
+<div id="container-floating">
+  <div id="floating-button"><p class="more">&gt;</p></div>
+</div>
+
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <p>© 2025 lzray的博客 · 由 Jekyll & GitHub Pages 驱动</p>
+      </div>
+    </footer>
+
+    <audio id="site-bgm" src="/assets/audio/bgm.mp3" preload="auto" loop></audio>
+    <script src="/assets/js/bgm.js"></script>
+
+<script src=""></script>
+    <script src="/assets/js/toc.js"></script>
+  </body>
+</html>
